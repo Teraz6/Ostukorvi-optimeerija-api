@@ -1,0 +1,23 @@
+swagger: '2.0'
+info:
+    title: Ostukorvi optimeerija
+    version: 1.0.0
+    description: Sisesta tooteid ja hinda
+paths:
+    /products:
+        get:
+            tags:
+                - products
+            responses:
+                '200':
+                    description: Returns list of Products
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            - Piim
+                            - Leib
+            summary: Get all the product in API
+            description: Return all Products that are registered in API
