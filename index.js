@@ -10,14 +10,22 @@ const yamljs = require('yamljs');
 
 const swaggerDocument = yamljs.load('./docs/swagger.yaml')
 //const swaggerDocument = require('./docs/swagger.json');
+const { sync } = require("./db")
 
-app.get('/products', (req, res) =>{
-    res.send(["Piim", "Leib"])
-});
+// app.get('/products', (req, res) =>{
+//     res.send(["Piim", "Leib", "Muna"])
+// });
 
-
+app.use(cors());
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(express.json())
 
-app.listen(port, () => {
-    console.log(`API on aadressil: http://localhost:${port}`)
+require("./routes/productRoutes.js")(app)
+
+app.listen(port, async () => {
+    if (process.env.SYNC === 'true')
+    {
+        await sync()
+    };
+    console.log(`API on aadressil: http://${host}:${port}`)
 });
