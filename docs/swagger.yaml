@@ -21,3 +21,40 @@ paths:
                             - Leib
             summary: Get all the product in API
             description: Return all Products that are registered in API
+    '/products/{ProductID}':
+        get:
+            tags:
+                - Products
+            responses:
+                '200':
+                    description: Returns all details of the given Product
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            ProductID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
+                            Name: TestProduct
+                            Category: TestCategory
+                            Price: 6
+                            Description: ''
+                            createdAt: '2025-12-01T16:37:17.000Z'
+                            updatedAt: '2025-12-01T16:37:17.000Z'
+                '404':
+                    description: Returns error when Product not found
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: ProductID
+            summary: Get full details of a Product
+            description: Will return all details of a given Product based in ProductID given
+definitions:
+    error:
+        title: Root Type for error
+        description: ''
+        type: object
+        properties:
+            error:
+                type: string
+        example:
+            error: Error message
