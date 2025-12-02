@@ -12,15 +12,16 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
-                Validate: {
-                    isEmail: true
+            //     Validate: {
+            //         isEmail: true
+            // },
             },
             Password: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                validate: {
-                    len: [8, 100]
-                }
+                // validate: {
+                //     len: [8, 100]
+                // }
             },
             IsAdmin: {
                 type: DataTypes.BOOLEAN,

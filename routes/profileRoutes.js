@@ -1,9 +1,9 @@
-const ProfileController = require("../controllers/ProfileController")
+const ProfileController = require("../controllers/ProfilesController")
 
 module.exports = (app) => {
-    app.route("/profile")
+    app.route("/profiles")
     // .get(ProfileController.getAll)
     .post(ProfileController.create)
-    app.route("/profile/:ProfileID")
+    // app.route("/profile/:ProfileID")
     // .get(ProfileController.getByID)
 }

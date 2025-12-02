@@ -5,22 +5,21 @@ const UUID = require ('uuid')
 exports.create =
 async (req, res) => {
     if (
-        !req.body.Name ||
         !req.body.Email ||
         !req.body.Password ||
-        !req.body.Create
+        !req.body.IsAdmin
     ){
         return res.status(400).send({error:'Missing parameter, please review your request data.'})
     }
-    const newProduct = {
+    const newProfile = {
         ProfileID: UUID.v7(),
-        Name: req.body.Name,
-        Price: req.body.Email,
-        Category: req.body.Password,
-        Description: req.body.Create,
+        Email: req.body.Email,
+        Password: req.body.Password,
+        IsAdmin: req.body.IsAdmin,
     }
+    const createdProfile = await db.Profile.create(newProfile)
     
-    const createdProfile = await db.Profile.create(newProduct)
-    return res.location(`${Utilities.getBaseURL(req)}/films/${createdProfile.ProfileID}`)
+    console.log(createdProfile)
+    return res.location(`${Utilities.getBaseURL(req)}/profiles/${createdProfile.ProfileID}`)
     .sendStatus(201);
 }

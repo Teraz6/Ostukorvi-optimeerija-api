@@ -111,6 +111,8 @@ paths:
                 type: string
     /profiles:
         post:
+            tags:
+                - Profiles
             parameters:
                 -
                     name: body
