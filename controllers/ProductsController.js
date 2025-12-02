@@ -17,6 +17,27 @@ async (req, res) => {
     return res.status(200).send(product)
 }
 
+exports.create =
+async (req, res) => {
+    if (
+        !req.body.Name ||
+        !req.body.Price ||
+        !req.body.Category ||
+        !req.body.Description
+    ){
+        return res.status(400).send({error:'Missing parameter, please review your request data.'})
+    }
+    const newProduct = {
+        Name: req.body.Name,
+        Price: req.body.Price,
+        Category: req.body.Category,
+        Description: req.body.Description,
+    }
+    const createdProduct = await db.Products.create(newProduct)
+    return res.location(`${Utilities.getBaseURL(req)}/films/${createdProduct.ProductID}`)
+    .sendStatus(201);
+}
+
 const getProduct = 
 async (req, res) => {
     const idNumber = req.params.ProductID
