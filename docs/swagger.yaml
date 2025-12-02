@@ -7,7 +7,7 @@ paths:
     /products:
         get:
             tags:
-                - products
+                - Products
             responses:
                 '200':
                     description: Returns list of Products
@@ -22,6 +22,8 @@ paths:
             summary: Get all the product in API
             description: Return all Products that are registered in API
         post:
+            tags:
+                - Products
             parameters:
                 -
                     name: body
@@ -68,6 +70,38 @@ paths:
             operationId: ProductID
             summary: Get full details of a Product
             description: Will return all details of a given Product based in ProductID given
+        delete:
+            tags:
+                - Products
+            parameters:
+                -
+                    name: body
+                    description: ID of the Product to be removed from the app.
+                    schema:
+                        $ref: '#/definitions/delete-Product'
+                    in: body
+                    required: true
+            responses:
+                '204':
+                    description: Returns "No Content" when removal of Product is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: |
+                        Return error when Product with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ID Not Found
+            summary: Delete a Product from the app
+            description: |
+                Deletes an entry from the app.
         parameters:
             -
                 name: ProductID
@@ -75,6 +109,23 @@ paths:
                 in: path
                 required: true
                 type: string
+    /profiles:
+        post:
+            parameters:
+                -
+                    name: body
+                    description: Data of new profile to be added
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when Profile is successfully added to the database.
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+            summary: Create a new profile into the app
+            description: Creates a new Profile instance with its required details for further usage.
 definitions:
     error:
         title: Root Type for error
@@ -109,3 +160,29 @@ definitions:
             Price: 9.99
             Category: NewProductCategory
             Description: NewProductDescription
+    delete-Product:
+        title: Root Type for delete-Product
+        description: ''
+        required:
+            - ProductID
+        type: object
+        properties:
+            ProductID:
+                type: string
+        example:
+            ProductID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
+    new-Profile:
+        title: Root Type for new-Profile
+        description: This data is currently a complex object.
+        type: object
+        properties:
+            Email:
+                type: string
+            Password:
+                type: string
+            IsAdmin:
+                type: string
+        example:
+            Email: xxx@sample.ee
+            Password: xxxxx
+            IsAdmin: 'false'
