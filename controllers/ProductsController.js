@@ -28,11 +28,13 @@ async (req, res) => {
         return res.status(400).send({error:'Missing parameter, please review your request data.'})
     }
     const newProduct = {
+        ProductID: UUID.v7(),
         Name: req.body.Name,
         Price: req.body.Price,
         Category: req.body.Category,
         Description: req.body.Description,
     }
+    
     const createdProduct = await db.Products.create(newProduct)
     return res.location(`${Utilities.getBaseURL(req)}/films/${createdProduct.ProductID}`)
     .sendStatus(201);

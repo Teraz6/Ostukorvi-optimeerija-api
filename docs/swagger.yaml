@@ -68,6 +68,13 @@ paths:
             operationId: ProductID
             summary: Get full details of a Product
             description: Will return all details of a given Product based in ProductID given
+        parameters:
+            -
+                name: ProductID
+                description: ID of Product
+                in: path
+                required: true
+                type: string
 definitions:
     error:
         title: Root Type for error
