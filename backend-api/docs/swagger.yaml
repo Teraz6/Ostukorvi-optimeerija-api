@@ -232,6 +232,13 @@ paths:
                         $ref: '#/definitions/error'
             summary: Get full details of the Basket
             description: Will return all the details of given Basket when BasketID is given
+        parameters:
+            -
+                name: BasketID
+                description: Id of the Basket
+                in: path
+                required: true
+                type: string
 definitions:
     error:
         title: Root Type for error
