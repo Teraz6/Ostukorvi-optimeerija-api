@@ -206,6 +206,32 @@ paths:
                     description: 'Missing parameter, please review your request data.'
             summary: Create a new Basket into the app
             description: Creata a new Basket with all the required fields.
+    '/baskets/{BasketID}':
+        get:
+            tags:
+                - Baskets
+            responses:
+                '200':
+                    description: Returns all the details of the given Basket
+                    schema:
+                        type: array
+                        items: {}
+                    examples:
+                        application/json: |-
+                            {
+                                "BasketID": "6b52cah6-cec3-11f0-b43f-901b0eec5991",
+                                "Name": "TestBasket",
+                                "Description": "TestBasket description",
+                                "TotalPrice": 49.98
+                                "createdAt": "2025-12-01T16:37:17.000Z",
+                                "updatedAt": "2025-12-01T16:37:17.000Z"
+                            }
+                '404':
+                    description: Returns error when Baket isn't found
+                    schema:
+                        $ref: '#/definitions/error'
+            summary: Get full details of the Basket
+            description: Will return all the details of given Basket when BasketID is given
 definitions:
     error:
         title: Root Type for error

@@ -29,3 +29,10 @@ async (req,res) => {
     res.status(200)
     .send(baskets.map(({BasketID, Name}) => {return{BasketID, Name}}))
 }
+
+exports.getById = 
+async (req, res) => {
+    const basket = await getBasket(req, res);
+    if (!basket) {return res.status(404).send({error: 'Basket not found'})}
+    return res.status(200).send(basket)
+}
