@@ -24,6 +24,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.Products = require("./models/Product.js")(sequelize, DataTypes);
+db.Profile = require("./models/Profile.js")(sequelize, DataTypes);
+
 
 const sync = (async ()=>{
     await sequelize.sync({alter: true});
