@@ -18,6 +18,6 @@ async (req, res) => {
     }
 
     const createdBasket = await db.Basket.create(newBasket)
-    return res.location(`${Utilities.getBaseURL(req)}/basket/${createdBasket.BasketID}`)
+    return res.location(`${Utilities.getBaseURL(req)}/baskets/${createdBasket.BasketID}`)
     .sendStatus(201);
 }
