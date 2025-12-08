@@ -71,6 +71,8 @@ paths:
             summary: Get full details of a Product
             description: Will return all details of a given Product based in ProductID given
         put:
+            tags:
+                - Products
             parameters:
                 -
                     name: body
@@ -107,6 +109,8 @@ paths:
                         application/json:
                             -
                                 error: Product not found
+            operationId: ProductID
+            summary: Modify details of Product
         delete:
             tags:
                 - Products
