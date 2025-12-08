@@ -36,8 +36,19 @@ async (req, res) => {
     }
     
     const createdProduct = await db.Products.create(newProduct)
-    return res.location(`${Utilities.getBaseURL(req)}/films/${createdProduct.ProductID}`)
+    return res.location(`${Utilities.getBaseURL(req)}/product/${createdProduct.ProductID}`)
     .sendStatus(201);
+}
+
+exports.deleteById =
+async (req, res) => {
+    const productToBeDeleted = await getProduct(req,res);
+    if(!productToBeDeleted)
+    {
+        return;
+    }
+    await productToBeDeleted.destroy();
+    res.status(204).send({error:"No Content"})
 }
 
 const getProduct = 

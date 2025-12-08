@@ -7,7 +7,7 @@ paths:
     /products:
         get:
             tags:
-                - products
+                - Products
             responses:
                 '200':
                     description: Returns list of Products
@@ -22,6 +22,8 @@ paths:
             summary: Get all the product in API
             description: Return all Products that are registered in API
         post:
+            tags:
+                - Products
             parameters:
                 -
                     name: body
@@ -68,6 +70,38 @@ paths:
             operationId: ProductID
             summary: Get full details of a Product
             description: Will return all details of a given Product based in ProductID given
+        delete:
+            tags:
+                - Products
+            parameters:
+                -
+                    name: body
+                    description: ID of the Product to be removed from the app.
+                    schema:
+                        $ref: '#/definitions/delete-Product'
+                    in: body
+                    required: true
+            responses:
+                '204':
+                    description: Returns "No Content" when removal of Product is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: |
+                        Return error when Product with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ID Not Found
+            summary: Delete a Product from the app
+            description: |
+                Deletes an entry from the app.
         parameters:
             -
                 name: ProductID
@@ -109,3 +143,14 @@ definitions:
             Price: 9.99
             Category: NewProductCategory
             Description: NewProductDescription
+    delete-Product:
+        title: Root Type for delete-Product
+        description: ''
+        required:
+            - ProductID
+        type: object
+        properties:
+            ProductID:
+                type: string
+        example:
+            ProductID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
