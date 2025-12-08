@@ -70,6 +70,43 @@ paths:
             operationId: ProductID
             summary: Get full details of a Product
             description: Will return all details of a given Product based in ProductID given
+        put:
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified Product
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Return 201 upon successful modification of Product
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    examples:
+                        application/json:
+                            -
+                                Name: Spagheti
+                                Price: 7.65
+                                Category: Pasta
+                                Description: Good pasta
+                '400':
+                    description: Returns 400 when one or multiple required parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Can''t change info, because some parameter is missing.'
+                '404':
+                    description: 'Returns 404 when Product that is to be modified, is not found by the given ProductID'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Product not found
         delete:
             tags:
                 - Products
@@ -109,6 +146,25 @@ paths:
                 in: path
                 required: true
                 type: string
+    /profiles:
+        post:
+            tags:
+                - Profiles
+            parameters:
+                -
+                    name: body
+                    description: Data of new profile to be added
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when Profile is successfully added to the database.
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+            summary: Create a new profile into the app
+            description: Creates a new Profile instance with its required details for further usage.
 definitions:
     error:
         title: Root Type for error
@@ -154,3 +210,18 @@ definitions:
                 type: string
         example:
             ProductID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
+    new-Profile:
+        title: Root Type for new-Profile
+        description: This data is currently a complex object.
+        type: object
+        properties:
+            Email:
+                type: string
+            Password:
+                type: string
+            IsAdmin:
+                type: string
+        example:
+            Email: xxx@sample.ee
+            Password: xxxxx
+            IsAdmin: 'false'
