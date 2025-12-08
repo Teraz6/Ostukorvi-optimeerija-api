@@ -70,6 +70,47 @@ paths:
             operationId: ProductID
             summary: Get full details of a Product
             description: Will return all details of a given Product based in ProductID given
+        put:
+            tags:
+                - Products
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified Product
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Return 201 upon successful modification of Product
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    examples:
+                        application/json:
+                            -
+                                Name: Spagheti
+                                Price: 7.65
+                                Category: Pasta
+                                Description: Good pasta
+                '400':
+                    description: Returns 400 when one or multiple required parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Can''t change info, because some parameter is missing.'
+                '404':
+                    description: 'Returns 404 when Product that is to be modified, is not found by the given ProductID'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Product not found
+            operationId: ProductID
+            summary: Modify details of Product
         delete:
             tags:
                 - Products
