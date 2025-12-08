@@ -169,6 +169,43 @@ paths:
                         $ref: '#/definitions/new-Profile'
             summary: Create a new profile into the app
             description: Creates a new Profile instance with its required details for further usage.
+    /baskets:
+        get:
+            tags:
+                - Baskets
+            responses:
+                '200':
+                    description: Returns a list of all the Baskets.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            - Every day products list
+                            - My wishlist
+            summary: Get all Baskets in the app
+            description: Return all the Baskets registered in you API.
+        post:
+            tags:
+                - Baskets
+            parameters:
+                -
+                    name: body
+                    description: Basket that is to be created.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when Basket is successfully created.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                '400':
+                    description: 'Missing parameter, please review your request data.'
+            summary: Create a new Basket into the app
+            description: Creata a new Basket with all the required fields.
 definitions:
     error:
         title: Root Type for error
@@ -229,3 +266,22 @@ definitions:
             Email: xxx@sample.ee
             Password: xxxxx
             IsAdmin: 'false'
+    new-Basket:
+        title: Root Type for new-Basket
+        description: ''
+        required:
+            - Name
+            - Description
+        type: object
+        properties:
+            Name:
+                type: string
+            Description:
+                type: string
+            TotalPrice:
+                format: double
+                type: number
+        example:
+            Name: Example basket name
+            Description: This is basket for my example
+            TotalPrice: 49.98
