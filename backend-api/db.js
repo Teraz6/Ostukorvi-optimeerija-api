@@ -25,6 +25,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.Products = require("./models/Product.js")(sequelize, DataTypes);
 db.Profile = require("./models/Profile.js")(sequelize, DataTypes);
+db.Basket = require("./models/Basket.js")(sequelize, DataTypes);
 
 
 const sync = (async ()=>{
