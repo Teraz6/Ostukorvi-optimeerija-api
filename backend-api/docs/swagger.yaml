@@ -1,0 +1,231 @@
+swagger: '2.0'
+info:
+    title: Ostukorvi optimeerija
+    version: 1.0.0
+    description: Sisesta tooteid ja hinda
+paths:
+    /products:
+        get:
+            tags:
+                - Products
+            responses:
+                '200':
+                    description: Returns list of Products
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            - Piim
+                            - Leib
+            summary: Get all the product in API
+            description: Return all Products that are registered in API
+        post:
+            tags:
+                - Products
+            parameters:
+                -
+                    name: body
+                    description: |
+                        The Product that is to be created.
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when Product is successfully added to the database.
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                '400':
+                    description: 'Missing parameter, please review your request data.'
+            summary: Create a new product into the app
+            description: |
+                Creates a new Product instance with its required details for further usage.
+    '/products/{ProductID}':
+        get:
+            tags:
+                - Products
+            responses:
+                '200':
+                    description: Returns all details of the given Product
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            ProductID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
+                            Name: TestProduct
+                            Category: TestCategory
+                            Price: 6
+                            Description: ''
+                            createdAt: '2025-12-01T16:37:17.000Z'
+                            updatedAt: '2025-12-01T16:37:17.000Z'
+                '404':
+                    description: Returns error when Product not found
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: ProductID
+            summary: Get full details of a Product
+            description: Will return all details of a given Product based in ProductID given
+        put:
+            tags:
+                - Products
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified Product
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Return 201 upon successful modification of Product
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    examples:
+                        application/json:
+                            -
+                                Name: Spagheti
+                                Price: 7.65
+                                Category: Pasta
+                                Description: Good pasta
+                '400':
+                    description: Returns 400 when one or multiple required parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Can''t change info, because some parameter is missing.'
+                '404':
+                    description: 'Returns 404 when Product that is to be modified, is not found by the given ProductID'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Product not found
+            operationId: ProductID
+            summary: Modify details of Product
+        delete:
+            tags:
+                - Products
+            parameters:
+                -
+                    name: body
+                    description: ID of the Product to be removed from the app.
+                    schema:
+                        $ref: '#/definitions/delete-Product'
+                    in: body
+                    required: true
+            responses:
+                '204':
+                    description: Returns "No Content" when removal of Product is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: |
+                        Return error when Product with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ID Not Found
+            summary: Delete a Product from the app
+            description: |
+                Deletes an entry from the app.
+        parameters:
+            -
+                name: ProductID
+                description: ID of Product
+                in: path
+                required: true
+                type: string
+    /profiles:
+        post:
+            tags:
+                - Profiles
+            parameters:
+                -
+                    name: body
+                    description: Data of new profile to be added
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when Profile is successfully added to the database.
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+            summary: Create a new profile into the app
+            description: Creates a new Profile instance with its required details for further usage.
+definitions:
+    error:
+        title: Root Type for error
+        description: ''
+        type: object
+        properties:
+            error:
+                type: string
+        example:
+            error: Error message
+    new-Product:
+        title: Root Type for new-Product
+        description: ''
+        required:
+            - Category
+            - Description
+            - Name
+            - Price
+        type: object
+        properties:
+            Name:
+                type: string
+            Price:
+                format: double
+                type: number
+            Category:
+                type: string
+            Description:
+                type: string
+        example:
+            Name: NewProductName
+            Price: 9.99
+            Category: NewProductCategory
+            Description: NewProductDescription
+    delete-Product:
+        title: Root Type for delete-Product
+        description: ''
+        required:
+            - ProductID
+        type: object
+        properties:
+            ProductID:
+                type: string
+        example:
+            ProductID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
+    new-Profile:
+        title: Root Type for new-Profile
+        description: This data is currently a complex object.
+        type: object
+        properties:
+            Email:
+                type: string
+            Password:
+                type: string
+            IsAdmin:
+                type: string
+        example:
+            Email: xxx@sample.ee
+            Password: xxxxx
+            IsAdmin: 'false'
