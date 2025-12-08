@@ -1,32 +1,25 @@
 {
-  "name": "ostukorvi-optimeerija",
+  "name": "ostukorvi-optimeerija-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Api ja veebisait soodsaima ostukorvi leidmiseks.\r --------------------\r # How to run the app",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently \"cd backend-api && nodemon .\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Teraz6/Ostukorvi-optimeerija.git"
+    "url": "git+https://github.com/Teraz6/Ostukorvi-optimeerija-api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/Teraz6/Ostukorvi-optimeerija/issues"
+    "url": "https://github.com/Teraz6/Ostukorvi-optimeerija-api/issues"
   },
-  "homepage": "https://github.com/Teraz6/Ostukorvi-optimeerija#readme",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "mariadb": "^3.4.5",
-    "nodemon": "^3.1.11",
-    "sequelize": "^6.37.7",
-    "swagger-ui-express": "^5.0.1",
-    "uuid": "^13.0.0",
-    "yamljs": "^0.3.0"
+  "homepage": "https://github.com/Teraz6/Ostukorvi-optimeerija-api#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11"
   }
 }
