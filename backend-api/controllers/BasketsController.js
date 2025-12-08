@@ -21,3 +21,11 @@ async (req, res) => {
     return res.location(`${Utilities.getBaseURL(req)}/baskets/${createdBasket.BasketID}`)
     .sendStatus(201);
 }
+
+exports.getAll = 
+async (req,res) => {
+    const baskets = await db.Basket.findAll();
+    console.log("getAll: " + baskets)
+    res.status(200)
+    .send(baskets.map(({BasketID, Name}) => {return{BasketID, Name}}))
+}
