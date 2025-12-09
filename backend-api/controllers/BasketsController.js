@@ -2,6 +2,19 @@ const { db } = require('../db')
 const Utilities = require('./Utilities')
 const UUID = require ('uuid')
 
+const getBasket = 
+async (req, res) => {
+    const idNumber = req.params.BasketID
+    console.log(idNumber)
+
+    const basket = await db.Basket.findByPk(idNumber)
+    if(!basket) {
+        res.status(404).send({Error: `Basket with this id was not found ${idNumber}`})
+        return null;
+    }
+    return basket
+}
+
 exports.create = 
 async (req, res) => {
     if (
@@ -18,7 +31,7 @@ async (req, res) => {
     }
 
     const createdBasket = await db.Basket.create(newBasket)
-    return res.location(`${Utilities.getBaseURL(req)}/baskets/${createdBasket.BasketID}`)
+    return res.location(`${Utilities.getBaseURL(req)}/basket/${createdBasket.BasketID}`)
     .sendStatus(201);
 }
 
@@ -28,4 +41,11 @@ async (req,res) => {
     console.log("getAll: " + baskets)
     res.status(200)
     .send(baskets.map(({BasketID, Name}) => {return{BasketID, Name}}))
+}
+
+exports.getById = 
+async (req, res) => {
+    const basket = await getBasket(req, res);
+    if (!basket) {return res.status(404).send({error: 'Basket not found'})}
+    return res.status(200).send(basket)
 }
