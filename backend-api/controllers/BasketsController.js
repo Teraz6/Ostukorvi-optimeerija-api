@@ -69,3 +69,14 @@ async (req,res) => {
     .location(`${Utilities.getBaseURL(req)}/basket/${basketToBeChanged.BasketID}`).sendStatus(201)
     .send(basketToBeChanged)
 }
+
+exports.deleteById =
+async (req,res) => {
+    const basketToBeDeleted = await getBasket(req,res);
+    if(!basketToBeDeleted)
+    {
+        return;
+    }
+    await basketToBeDeleted.destroy();
+    res.status(204).send({error:"No Content"})
+}

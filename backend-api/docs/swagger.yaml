@@ -268,6 +268,28 @@ paths:
                         $ref: '#/definitions/error'
             operationId: BasketID
             summary: Modify selected Basket
+        delete:
+            tags:
+                - Baskets
+            responses:
+                '204':
+                    description: Returns 204 when removal of the selected Basket is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: Returns 404 when Basket isn't found by the given BasketID.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ID not found
+            operationId: BasketID
+            summary: Delete selected Basket from the app
         parameters:
             -
                 name: BasketID
@@ -354,3 +376,14 @@ definitions:
             Name: Example basket name
             Description: This is basket for my example
             TotalPrice: 49.98
+    delete-Basket:
+        title: Root Type for delete-Basket
+        description: ''
+        required:
+            - BasketID
+        type: object
+        properties:
+            BasketID:
+                type: string
+        example:
+            BasketID: 19afec7-c2f3-72c8-b83f-bebcb35fc358
