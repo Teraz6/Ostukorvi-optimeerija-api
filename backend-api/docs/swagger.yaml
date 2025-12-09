@@ -140,6 +140,7 @@ paths:
                         application/json:
                             -
                                 error: ID Not Found
+            operationId: ProductID
             summary: Delete a Product from the app
             description: |
                 Deletes an entry from the app.
@@ -230,8 +231,43 @@ paths:
                     description: Returns error when Baket isn't found
                     schema:
                         $ref: '#/definitions/error'
+            operationId: BasketID
             summary: Get full details of the Basket
             description: Will return all the details of given Basket when BasketID is given
+        put:
+            tags:
+                - Baskets
+            parameters:
+                -
+                    name: body
+                    description: Contains new data for selected Basket.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 after Basket has been successfully modified with new data.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                    examples:
+                        application/json: |-
+                            [
+                                {
+                                    "Name": "Modified basket name",
+                                    "Description": "Very good basket",
+                                }
+                            ]
+                '400':
+                    description: Returns 400 when one or more parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                '404':
+                    description: 'Returns 404, when Basket that is to be modified, isn''t found by given BasketID'
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: BasketID
+            summary: Modify selected Basket
         parameters:
             -
                 name: BasketID

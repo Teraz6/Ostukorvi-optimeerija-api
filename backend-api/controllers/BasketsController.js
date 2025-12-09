@@ -49,3 +49,23 @@ async (req, res) => {
     if (!basket) {return res.status(404).send({error: 'Basket not found'})}
     return res.status(200).send(basket)
 }
+
+exports.modifyById =
+async (req,res) => {
+    const basketToBeChanged = await getBasket(req,res);
+    if(!basketToBeChanged) {
+        return
+    }
+    if (
+        !req.body.Name ||
+        !req.body.Description
+    ){
+        return res.status(400({error:'Misiing parameter, please review your request data.'}))
+    }
+    basketToBeChanged.Name = req.body.Name;
+    basketToBeChanged.Description = req.body.Description;
+    await basketToBeChanged.save();
+    return res
+    .location(`${Utilities.getBaseURL(req)}/basket/${basketToBeChanged.BasketID}`).sendStatus(201)
+    .send(basketToBeChanged)
+}
