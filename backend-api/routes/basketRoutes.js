@@ -6,4 +6,5 @@ module.exports = (app) => {
     .post(BasketController.create)
     app.route("/baskets/:BasketID")
     .get(BasketController.getById)
+    .put(BasketController.modifyById)
 }
