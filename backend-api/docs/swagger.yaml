@@ -168,10 +168,6 @@ paths:
                     description: Send 201 when Profile is successfully added to the database.
                     schema:
                         $ref: '#/definitions/new-Profile'
-                '400':
-                    description: 'Missing parameters, please review your request data.'
-                    schema:
-                        $ref: '#/definitions/error'
             summary: Create a new profile into the app
             description: Creates a new Profile instance with its required details for further usage.
     /baskets:
@@ -209,6 +205,8 @@ paths:
                         $ref: '#/definitions/new-Basket'
                 '400':
                     description: 'Missing parameter, please review your request data.'
+                    schema:
+                        $ref: '#/definitions/error'
             summary: Create a new Basket into the app
             description: Creata a new Basket with all the required fields.
     '/baskets/{BasketID}':
@@ -349,18 +347,19 @@ definitions:
     new-Profile:
         title: Root Type for new-Profile
         description: This data is currently a complex object.
+        required:
+            - Email
+            - PasswordHASH
         type: object
         properties:
             Email:
                 type: string
-            Password:
-                type: string
-            IsAdmin:
+            PasswordHASH:
+                description: ''
                 type: string
         example:
             Email: xxx@sample.ee
-            Password: xxxxx
-            IsAdmin: 'false'
+            PasswordHASH: xxxxx
     new-Basket:
         title: Root Type for new-Basket
         description: ''
