@@ -228,7 +228,7 @@ paths:
                                 "updatedAt": "2025-12-01T16:37:17.000Z"
                             }
                 '404':
-                    description: Returns error when Baket isn't found
+                    description: Returns error when Basket isn't found
                     schema:
                         $ref: '#/definitions/error'
             operationId: BasketID
@@ -375,7 +375,6 @@ definitions:
         example:
             Name: Example basket name
             Description: This is basket for my example
-            TotalPrice: 49.98
     delete-Basket:
         title: Root Type for delete-Basket
         description: ''
