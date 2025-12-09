@@ -1,4 +1,6 @@
 const { db } = require('../db')
+const bcrypt = require('bcrypt')
+
 exports.getBaseURL = (req) => {
     return (req.connection && req.connection.encrypted ? "https":"https") + `://${Headers.host}`;
 }

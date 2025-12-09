@@ -13,7 +13,7 @@ async (req, res) => {
     const newProfile = {
         ProfileID: UUID.v7(),
         Email: req.body.Email,
-        PasswordHASH: (await Utilities.gimmePassword(req.body.PasswordHASH).toString),
+        PasswordHASH: (await Utilities.gimmePassword(req.body.PasswordHASH)).toString(),
         //IsAdmin: req.body.IsAdmin,
     }
     const createdProfile = await db.Profile.create(newProfile)
@@ -22,3 +22,11 @@ async (req, res) => {
     return res.location(`${Utilities.getBaseURL(req)}/profiles/${createdProfile.ProfileID}`)
     .sendStatus(201);
 }
+
+exports.getAll = 
+async (req, res) => {
+    const profiles = await db.Profile.findAll();
+    console.log("getAll: " + profiles)
+    res.status(200)
+    .send(profiles.map(({ProfileID,Email}) => {return{ProfileID,Email}}))
+} 

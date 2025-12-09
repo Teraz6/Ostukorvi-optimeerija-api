@@ -3,7 +3,7 @@ const { DataTypes, ValidationError } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     const Profile = sequelize.define(
         'Profile', {
-            UserID: {
+            ProfileID: {
                 type: DataTypes.UUID,
                 primaryKey: true,
                 defaultValue: DataTypes.UUID

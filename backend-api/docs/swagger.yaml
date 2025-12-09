@@ -152,6 +152,25 @@ paths:
                 required: true
                 type: string
     /profiles:
+        get:
+            tags:
+                - Profiles
+            responses:
+                '200':
+                    description: Returns list of profiles
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json: |4
+
+                                [
+                                    "test@gmail.com",
+                                    "asd@gmail.com"
+                                ]
+            summary: Get all profiles in api
+            description: Rerurn all profiles that are registred in api
         post:
             tags:
                 - Profiles
@@ -168,6 +187,10 @@ paths:
                     description: Send 201 when Profile is successfully added to the database.
                     schema:
                         $ref: '#/definitions/new-Profile'
+                '400':
+                    description: 'Missing parameters, please review your request data.'
+                    schema:
+                        $ref: '#/definitions/error'
             summary: Create a new profile into the app
             description: Creates a new Profile instance with its required details for further usage.
     /baskets:
@@ -205,8 +228,6 @@ paths:
                         $ref: '#/definitions/new-Basket'
                 '400':
                     description: 'Missing parameter, please review your request data.'
-                    schema:
-                        $ref: '#/definitions/error'
             summary: Create a new Basket into the app
             description: Creata a new Basket with all the required fields.
     '/baskets/{BasketID}':
@@ -348,14 +369,13 @@ definitions:
         title: Root Type for new-Profile
         description: This data is currently a complex object.
         required:
+            - Password
             - Email
-            - PasswordHASH
         type: object
         properties:
             Email:
                 type: string
-            PasswordHASH:
-                description: ''
+            Password:
                 type: string
         example:
             Email: xxx@sample.ee
