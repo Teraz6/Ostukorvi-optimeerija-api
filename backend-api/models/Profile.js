@@ -16,17 +16,17 @@ module.exports = (sequelize, DataTypes) => {
             //         isEmail: true
             // },
             },
-            Password: {
+            PasswordHASH: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 // validate: {
                 //     len: [8, 100]
                 // }
             },
-            IsAdmin: {
-                type: DataTypes.BOOLEAN,
-                defaulValue: false
-            }
+            // IsAdmin: {
+            //     type: DataTypes.BOOLEAN,
+            //     defaulValue: false
+            // }
         }
     )
     console.log(Profile === sequelize.models.Profile)

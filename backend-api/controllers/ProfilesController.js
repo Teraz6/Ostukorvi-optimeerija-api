@@ -6,16 +6,15 @@ exports.create =
 async (req, res) => {
     if (
         !req.body.Email ||
-        !req.body.Password ||
-        !req.body.IsAdmin
+        !req.body.PasswordHASH
     ){
         return res.status(400).send({error:'Missing parameter, please review your request data.'})
     }
     const newProfile = {
         ProfileID: UUID.v7(),
         Email: req.body.Email,
-        Password: req.body.Password,
-        IsAdmin: req.body.IsAdmin,
+        PasswordHASH: (await Utilities.gimmePassword(req.body.PasswordHASH).toString),
+        //IsAdmin: req.body.IsAdmin,
     }
     const createdProfile = await db.Profile.create(newProfile)
     
