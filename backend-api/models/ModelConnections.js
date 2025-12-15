@@ -4,7 +4,7 @@ db.Products = require('./models/Product')(sequelize, DataTypes);
 db.BasketItem = require('./models/BasketItem')(sequelize, DataTypes);
 
 // 1. Basket to Product (Many-to-Many)
-db.Basket.belongsToMany(db.Products, {
+db.Baskets.belongsToMany(db.Products, {
     through: db.BasketItem,
     foreignKey: 'BasketID', // The foreign key in the BasketItem table that points to Basket
     as: 'Products' // The alias used when querying (e.g., basket.getProducts())

@@ -1,4 +1,5 @@
 const { db } = require('../db')
+const Product = require('../models/Product')
 const Utilities = require('./Utilities')
 const UUID = require ('uuid')
 
@@ -7,7 +8,7 @@ async (req, res) => {
     const idNumber = req.params.BasketID
     console.log(idNumber)
 
-    const basket = await db.Basket.findByPk(idNumber)
+    const basket = await db.Baskets.findByPk(idNumber)
     if(!basket) {
         res.status(404).send({Error: `Basket with this id was not found ${idNumber}`})
         return null;
@@ -23,21 +24,23 @@ async (req, res) => {
     ){
         return res.status(400).send({error: 'Missing parameter, please review your request data.'})
     }
-    const newBasket = {
+    let newBasket = {
         BasketID: UUID.v7(),
         Name: req.body.Name,
         Description: req.body.Description,
         TotalPrice: req.body.TotalPrice,
+        ProfileID: req.body.ProfileID, // check if it is correct
+        ProductID: req.body.ProductID, //check if this is correct
     }
 
-    const createdBasket = await db.Basket.create(newBasket)
+    const createdBasket = await db.Baskets.create(newBasket)
     return res.location(`${Utilities.getBaseURL(req)}/basket/${createdBasket.BasketID}`)
     .sendStatus(201);
 }
 
 exports.getAll = 
 async (req,res) => {
-    const baskets = await db.Basket.findAll();
+    const baskets = await db.Baskets.findAll();
     console.log("getAll: " + baskets)
     res.status(200)
     .send(baskets.map(({BasketID, Name}) => {return{BasketID, Name}}))
