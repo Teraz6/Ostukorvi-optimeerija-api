@@ -17,7 +17,7 @@ async (req, res) => {
         Password: req.body.Password,
         IsAdmin: req.body.IsAdmin,
     }
-    const createdProfile = await db.Profile.create(newProfile)
+    const createdProfile = await db.Profiles.create(newProfile)
     
     console.log(createdProfile)
     return res.location(`${Utilities.getBaseURL(req)}/profiles/${createdProfile.ProfileID}`)
