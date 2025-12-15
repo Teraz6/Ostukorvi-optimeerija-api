@@ -1,41 +1,43 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
+import NavBar from './components/NavBar.vue'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <NavBar />
   </header>
-
-  <RouterView />
+  <RouterView/>
 </template>
 
 <style scoped>
 header {
+  width: 100%;
+  background-color: pink;
   line-height: 1.5;
-  max-height: 100vh;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  height: 64px;
 }
 
 .logo {
   display: block;
-  margin: 0 auto 2rem;
+  align-items: start;
 }
 
 nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  font-size: 12px;
+  font-size: 16px;
   text-align: center;
-  margin-top: 2rem;
+  height: 64px;
 }
 
 nav a.router-link-exact-active {
@@ -59,7 +61,6 @@ nav a:first-of-type {
 @media (min-width: 1024px) {
   header {
     display: flex;
-    place-items: center;
     padding-right: calc(var(--section-gap) / 2);
   }
 
