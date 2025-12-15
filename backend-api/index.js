@@ -24,9 +24,6 @@ require("./routes/productRoutes.js")(app)
 require("./routes/profileRoutes.js")(app)
 
 app.listen(port, async () => {
-    if (process.env.SYNC === 'true')
-    {
-        await sync()
-    };
-    console.log(`API on aadressil: http://${host}:${port}`)
+  // await sync()
+  console.log(`API on aadressil: http://${host}:${port}`)
 });
