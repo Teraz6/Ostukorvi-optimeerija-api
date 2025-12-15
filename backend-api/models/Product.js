@@ -26,6 +26,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     )
-    console.log(Product === sequelize.models.Product)
+    //console.log(Product === sequelize.models.Product)
     return Product;
 }

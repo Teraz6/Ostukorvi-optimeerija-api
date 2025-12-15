@@ -140,6 +140,7 @@ paths:
                         application/json:
                             -
                                 error: ID Not Found
+            operationId: ProductID
             summary: Delete a Product from the app
             description: |
                 Deletes an entry from the app.
@@ -151,6 +152,18 @@ paths:
                 required: true
                 type: string
     /profiles:
+        get:
+            tags:
+                - Profiles
+            responses:
+                '200':
+                    description: Returns list of Profiles
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/new-Profile'
+            summary: Get all profiles in API
+            description: Return all Profiles that are registered in API
         post:
             tags:
                 - Profiles
@@ -169,6 +182,210 @@ paths:
                         $ref: '#/definitions/new-Profile'
             summary: Create a new profile into the app
             description: Creates a new Profile instance with its required details for further usage.
+    '/profiles/{ProfileID}':
+        get:
+            tags:
+                - Profiles
+            responses:
+                '200':
+                    description: Returns all details of the given Profile
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+                '404':
+                    description: Returns error when Profile not found
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: ProfileID
+            summary: Get full details of a Profile
+            description: Will return all details of a given Profile based in ProfileID given
+
+        put:
+            tags:
+                - Profiles
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified Profile
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Return 201 upon successful modification of Profile
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+                '400':
+                    description: Returns 400 when one or multiple required parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                '404':
+                    description: Returns 404 when Profile that is to be modified, is not found by the given ProfileID
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: ProfileID
+            summary: Modify details of Profile
+
+        delete:
+            tags:
+                - Profiles
+            responses:
+                '204':
+                    description: Returns "No Content" when removal of Profile is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: |
+                        Return error when Profile with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ID Not Found
+            operationId: ProfileID
+            summary: Delete a Profile from the app
+            description: |
+                Deletes an entry from the app.
+
+        parameters:
+            -
+                name: ProfileID
+                description: ID of Profile
+                in: path
+                required: true
+                type: string
+    /baskets:
+        get:
+            tags:
+                - Baskets
+            responses:
+                '200':
+                    description: Returns a list of all the Baskets.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            - Every day products list
+                            - My wishlist
+            summary: Get all Baskets in the app
+            description: Return all the Baskets registered in you API.
+        post:
+            tags:
+                - Baskets
+            parameters:
+                -
+                    name: body
+                    description: Basket that is to be created.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Send 201 when Basket is successfully created.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                '400':
+                    description: 'Missing parameter, please review your request data.'
+            summary: Create a new Basket into the app
+            description: Creata a new Basket with all the required fields.
+    '/baskets/{BasketID}':
+        get:
+            tags:
+                - Baskets
+            responses:
+                '200':
+                    description: Returns all the details of the given Basket
+                    schema:
+                        type: array
+                        items: {}
+                    examples:
+                        application/json: |-
+                            {
+                                "BasketID": "6b52cah6-cec3-11f0-b43f-901b0eec5991",
+                                "Name": "TestBasket",
+                                "Description": "TestBasket description",
+                                "TotalPrice": 49.98
+                                "createdAt": "2025-12-01T16:37:17.000Z",
+                                "updatedAt": "2025-12-01T16:37:17.000Z"
+                            }
+                '404':
+                    description: Returns error when Basket isn't found
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: BasketID
+            summary: Get full details of the Basket
+            description: Will return all the details of given Basket when BasketID is given
+        put:
+            tags:
+                - Baskets
+            parameters:
+                -
+                    name: body
+                    description: Contains new data for selected Basket.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 after Basket has been successfully modified with new data.
+                    schema:
+                        $ref: '#/definitions/new-Basket'
+                    examples:
+                        application/json: |-
+                            [
+                                {
+                                    "Name": "Modified basket name",
+                                    "Description": "Very good basket",
+                                }
+                            ]
+                '400':
+                    description: Returns 400 when one or more parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                '404':
+                    description: 'Returns 404, when Basket that is to be modified, isn''t found by given BasketID'
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: BasketID
+            summary: Modify selected Basket
+        delete:
+            tags:
+                - Baskets
+            responses:
+                '204':
+                    description: Returns 204 when removal of the selected Basket is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: Returns 404 when Basket isn't found by the given BasketID.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ID not found
+            operationId: BasketID
+            summary: Delete selected Basket from the app
+        parameters:
+            -
+                name: BasketID
+                description: Id of the Basket
+                in: path
+                required: true
+                type: string
 definitions:
     error:
         title: Root Type for error
@@ -229,3 +446,34 @@ definitions:
             Email: xxx@sample.ee
             Password: xxxxx
             IsAdmin: 'false'
+    new-Basket:
+        title: Root Type for new-Basket
+        description: ''
+        required:
+            - Name
+            - Description
+        type: object
+        properties:
+            Name:
+                type: string
+            Description:
+                type: string
+            TotalPrice:
+                format: double
+                type: number
+        example:
+            Name: Example basket name
+            Description: This is basket for my example
+    delete-Basket:
+        title: Root Type for delete-Basket
+        description: ''
+        required:
+            - BasketID
+        type: object
+        properties:
+            BasketID:
+                type: string
+        example:
+            BasketID: 19afec7-c2f3-72c8-b83f-bebcb35fc358
+
+            

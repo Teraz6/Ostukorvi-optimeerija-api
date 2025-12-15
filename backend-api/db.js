@@ -7,14 +7,14 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOSTNAME,
         dialect: 'mariadb',
-        logging: console.log,
+        //logging: console.log,
     }
 )
 
 async() => {
     try {
         await sequelize.authenticate();
-        console.log('Connection has been established successfully')
+        //console.log('Connection has been established successfully')
     } catch (error) {
         console.error("Unable to connect." + error)
     }
@@ -29,7 +29,7 @@ db.Profile = require("./models/Profile.js")(sequelize, DataTypes);
 
 const sync = (async ()=>{
     await sequelize.sync({alter: true});
-    console.log('DB sync has been completed.')
+    //console.log('DB sync has been completed.')
 })
 
 module.exports = {db, sync};
