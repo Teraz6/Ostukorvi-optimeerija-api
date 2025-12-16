@@ -471,7 +471,8 @@ definitions:
                 type: string
         example:
             Email: xxx@sample.ee
-            PasswordHASH: xxxxx
+            Password: xxxxx
+            IsAdmin: 'false'
     new-Basket:
         title: Root Type for new-Basket
         description: ''
