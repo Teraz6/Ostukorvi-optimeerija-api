@@ -10,18 +10,13 @@
             }
         },
     async created() {
-    try {
-        const response = await fetch('http://localhost:8080/products');
-        this.allProducts = await response.json();
-    } catch (error) {
-        console.error("Error fetching products:", error);
-    }
-}
+        this.allProducts = await (await fetch('http://localhost:8080/products')).json()
+        }
     }
 </script>
 
 <template>
     <main>
-        <ProductsTable :items="allProducts"/>
+        <ProductsTable :items="allProducts" @product-deleted="id => allProducts = allProducts.filter(p => p.ProductID !== id)" />
     </main>
 </template>

@@ -5,8 +5,25 @@
             items: Array
         },
         methods: {
-            async deleteProduct(ProductID) {
-                await (await fetch(`http://localhost:8080/products/${ProductID}`, {method: 'DELETE'}))
+            async deltest(ProductID) {
+                // Confirmation prevents accidental clicks
+            if (!confirm("Are you sure you want to delete this product?")) return;
+
+            try {
+                const response = await fetch(`http://localhost:8080/products/${ProductID}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    // This 'emits' a signal to the parent (ProductView.vue) 
+                    // to remove the item from the 'allProducts' array instantly.
+                    this.$emit('product-deleted', ProductID);
+                } else {
+                    alert("Server error: Could not delete product.");
+                }
+            } catch (error) {
+                console.error("Delete request failed:", error);
+            }
             }
         },
     }
@@ -24,7 +41,7 @@
             </thead>
             <tbody>
                 <tr v-for="item in items" :key="item.ProductID">
-                    <td class="id-column">#{{ item.ProductID }}</td>
+                    <td class="id-column">{{ item.ProductID }}</td>
                     <td class="name-column">{{ item.Name }}</td>
                     <td class="text-right">
                         <RouterLink 
@@ -32,10 +49,9 @@
                             class="view-btn">
                             View Details
                         </RouterLink>
-                        <RouterLink 
-                            :to="{name:'products'}">
-                            <button @click="deleteProduct(item.ProductID)">Delete product</button>  
-                        </RouterLink>
+                        <button @click="deltest(item.ProductID)" class="delete-btn">
+                            Delete
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -127,6 +143,28 @@ tr:hover {
 }
 
 .view-btn:active {
+    transform: translateY(0);
+}
+
+/* New Modern Delete Button Style */
+.delete-btn {
+    padding: 8px 16px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+}
+
+.delete-btn:active {
     transform: translateY(0);
 }
 </style>
