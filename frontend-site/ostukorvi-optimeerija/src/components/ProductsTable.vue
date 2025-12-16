@@ -3,7 +3,12 @@
         name: "ProductsTable",
         props: {
             items: Array
-        }
+        },
+        methods: {
+            async deleteProduct(ProductID) {
+                await (await fetch(`http://localhost:8080/products/${ProductID}`, {method: 'DELETE'}))
+            }
+        },
     }
 </script>
 
@@ -26,6 +31,10 @@
                             :to="'/product/' + item.ProductID" 
                             class="view-btn">
                             View Details
+                        </RouterLink>
+                        <RouterLink 
+                            :to="{name:'products'}">
+                            <button @click="deleteProduct(item.ProductID)">Delete product</button>  
                         </RouterLink>
                     </td>
                 </tr>
