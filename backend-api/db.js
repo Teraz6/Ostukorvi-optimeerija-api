@@ -28,11 +28,17 @@ db.Profiles = require("./models/Profile.js")(sequelize, DataTypes);
 db.Baskets = require("./models/Basket.js")(sequelize, DataTypes);
 db.BasketItem = require("./models/BasketItem")(sequelize, DataTypes);
 
-db.Products.belongsToMany(db.Baskets, { through: db.BasketItem });
-db.Baskets.belongsToMany(db.Products, { through: db.BasketItem });
+db.Products.belongsToMany(db.Baskets, { 
+    through: db.BasketItem, 
+    foreignKey: 'ProductID' 
+});
+db.Baskets.belongsToMany(db.Products, { 
+    through: db.BasketItem, 
+    foreignKey: 'BasketID' 
+});
 
 const sync = (async ()=>{
-    await sequelize.sync({alter: true});
+    await sequelize.sync();
     //console.log('DB sync has been completed.')
 })
 
