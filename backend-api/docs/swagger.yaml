@@ -163,11 +163,11 @@ paths:
                         items:
                             type: string
                     examples:
-                        application/json: |4
+                        application/json: |4-
 
                                 [
-                                    "test@gmail.com",
-                                    "asd@gmail.com"
+                                    "test@gm.com",
+                                    "suva@ke.com"
                                 ]
             summary: Get all profiles in api
             description: Rerurn all profiles that are registred in api
@@ -469,10 +469,13 @@ definitions:
                 type: string
             Password:
                 type: string
+            IsAdmin:
+                description: ''
+                type: boolean
         example:
             Email: xxx@sample.ee
-            Password: xxxxx
-            IsAdmin: 'false'
+            PasswordHASH: xxxxx
+            IsAdmin: false
     new-Basket:
         title: Root Type for new-Basket
         description: ''

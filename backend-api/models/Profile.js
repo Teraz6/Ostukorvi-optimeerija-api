@@ -3,7 +3,7 @@ const { DataTypes, ValidationError } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     const Profile = sequelize.define(
         'Profile', {
-            UserID: {
+            ProfileID: {
                 type: DataTypes.UUID,
                 primaryKey: true,
                 defaultValue: DataTypes.UUID
@@ -12,16 +12,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true,
-            //     Validate: {
-            //         isEmail: true
-            // },
             },
-            Password: {
+            PasswordHASH: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                // validate: {
-                //     len: [8, 100]
-                // }
             },
             IsAdmin: {
                 type: DataTypes.BOOLEAN,
