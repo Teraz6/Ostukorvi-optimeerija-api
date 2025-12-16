@@ -5,10 +5,9 @@
             items: Array
         },
         methods: {
-            async deltest(ProductID) {
+            async deleteProduct(ProductID) {
                 // Confirmation prevents accidental clicks
             if (!confirm("Are you sure you want to delete this product?")) return;
-
             try {
                 const response = await fetch(`http://localhost:8080/products/${ProductID}`, {
                     method: 'DELETE'
@@ -23,13 +22,15 @@
                 }
             } catch (error) {
                 console.error("Delete request failed:", error);
-            }
-            }
+            }}
         },
     }
 </script>
 
 <template>
+    <RouterLink to="/add-product" class="view-btn">
+        Add Product
+    </RouterLink>
     <div class="table-container">
         <table class="custom-table">
             <thead>
@@ -49,7 +50,7 @@
                             class="view-btn">
                             View Details
                         </RouterLink>
-                        <button @click="deltest(item.ProductID)" class="delete-btn">
+                        <button @click="deleteProduct(item.ProductID)" class="delete-btn">
                             Delete
                         </button>
                     </td>
