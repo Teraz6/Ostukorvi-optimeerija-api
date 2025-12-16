@@ -10,8 +10,13 @@
             }
         },
     async created() {
-        this.allProducts = await (await fetch('http//localhost:8080/products')).json()
-        }
+    try {
+        const response = await fetch('http://localhost:8080/products');
+        this.allProducts = await response.json();
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+}
     }
 </script>
 
