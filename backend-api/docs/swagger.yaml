@@ -152,6 +152,25 @@ paths:
                 required: true
                 type: string
     /profiles:
+        get:
+            tags:
+                - Profiles
+            responses:
+                '200':
+                    description: Returns list of profiles
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json: |4
+
+                                [
+                                    "test@gmail.com",
+                                    "asd@gmail.com"
+                                ]
+            summary: Get all profiles in api
+            description: Rerurn all profiles that are registred in api
         post:
             tags:
                 - Profiles
@@ -168,6 +187,10 @@ paths:
                     description: Send 201 when Profile is successfully added to the database.
                     schema:
                         $ref: '#/definitions/new-Profile'
+                '400':
+                    description: 'Missing parameters, please review your request data.'
+                    schema:
+                        $ref: '#/definitions/error'
             summary: Create a new profile into the app
             description: Creates a new Profile instance with its required details for further usage.
     /baskets:
@@ -297,6 +320,98 @@ paths:
                 in: path
                 required: true
                 type: string
+    '/profiles/{ProfileID}':
+        get:
+            tags:
+                - Profiles
+            responses:
+                '200':
+                    description: Returns all details of the given Profile
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            UserID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
+                            Email: asd@mail.ee
+                            IsAdmin: 'false'
+                            createdAt: '2015-12-01T16:37:17.000Z'
+                            updatedAt: '2015-12-01T16:37:17.000Z'
+                '404':
+                    description: Returns error when Profile not found
+                    schema:
+                        $ref: '#/definitions/error'
+            operationId: ProfileID
+            summary: Get full details of a Profile
+            description: Will return all details of a given Profile based in ProfileId given
+        put:
+            tags:
+                - Profiles
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified Profile.
+                    schema:
+                        $ref: '#/definitions/new-Profile'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Return 201 upon successful modification of Profile
+                    schema:
+                        $ref: '#/definitions/new-Product'
+                    examples:
+                        application/json:
+                            -
+                                Email: uxui@mail.ee
+                                Password: testpassword
+                '400':
+                    description: Returns 200 when one or multiple required parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Can`t change info, because some parameter is missing'
+                '404':
+                    description: 'Returns 404 when Profile that is to be mofified, is not found by the given ProfileID'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Profile not found
+            operationId: ProfileID
+            summary: Modify details of Profile
+        delete:
+            tags:
+                - Profiles
+            responses:
+                '204':
+                    description: Returns "No Content" when removal of Profile is succesful
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: Return error when Profile with specified ID does not exist
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ID Not Found
+            operationId: ProfileID
+            summary: Delete a Profile from the app
+            description: Deletes an entry from the app.
+        parameters:
+            -
+                name: ProfileID
+                in: path
+                required: true
 definitions:
     error:
         title: Root Type for error
@@ -345,13 +460,14 @@ definitions:
     new-Profile:
         title: Root Type for new-Profile
         description: This data is currently a complex object.
+        required:
+            - Password
+            - Email
         type: object
         properties:
             Email:
                 type: string
             Password:
-                type: string
-            IsAdmin:
                 type: string
         example:
             Email: xxx@sample.ee
@@ -386,3 +502,14 @@ definitions:
                 type: string
         example:
             BasketID: 19afec7-c2f3-72c8-b83f-bebcb35fc358
+    delete-Profile:
+        title: Root Type for delete-Profile
+        description: ''
+        required:
+            - ProfileID
+        type: object
+        properties:
+            ProfileID:
+                type: string
+        example:
+            ProfileID: 6b52cae6-cec3-11f0-b43f-901b0eec5991

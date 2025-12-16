@@ -5,7 +5,7 @@ const UUID = require ('uuid')
 exports.getAll = 
 async (req, res) => {
     const products = await db.Products.findAll();
-    console.log("getAll: " + products)
+    //console.log("getAll: " + products)
     res.status(200)
     .send(products.map(({ProductID,Name}) => {return{ProductID,Name}}))
 }
@@ -78,7 +78,7 @@ async (req, res) => {
 const getProduct = 
 async (req, res) => {
     const idNumber = req.params.ProductID
-    console.log(idNumber)
+    //console.log(idNumber)
     // if (isNaN(idNumber)){
     //     res.status(400).send({error:`Entered id is not valid ${idNumber}`})
     //     return null;

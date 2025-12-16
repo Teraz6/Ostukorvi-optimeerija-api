@@ -29,6 +29,6 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     )
-    console.log(Profile === sequelize.models.Profile)
+    //console.log(Profile === sequelize.models.Profile)
     return Profile;
 }
