@@ -43,6 +43,11 @@
                 <tr v-for="item in items" :key="item.BasketID">
                     <td class="name-column">{{ item.Name }}</td>
                     <td>
+                        <RouterLink :to="'/baskets/' + item.BasketID + '/update'"
+                        class="view-btn">
+                            Edit
+                        </RouterLink>
+
                         <button @click="deleteBasket(item.BasketID)" class="delete-btn">
                             Delete
                         </button>
