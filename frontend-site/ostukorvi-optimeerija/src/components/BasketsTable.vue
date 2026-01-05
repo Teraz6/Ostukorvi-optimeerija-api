@@ -9,6 +9,10 @@
 </script>
 
 <template>
+    <RouterLink to="/add-basket" class="view-btn">
+        Add Basket
+    </RouterLink>
+    
     <div class="table-container">
         <table class="custom-table">
             <thead>
