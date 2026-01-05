@@ -5,6 +5,7 @@ import ProductsView from '../views/ProductsView.vue'
 import SingleProductView from '../views/SingleProductView.vue'
 import AddProductView from '../views/AddProductView.vue'
 import UpdateProductView from '../views/UpdateProductView.vue'
+import BasketsView from '../views/BasketsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       name: 'update-product',
       component: UpdateProductView,
       props: true
+    },
+    {
+      path: '/baskets',
+      name: 'baskets',
+      component: BasketsView,
     }
   ],
 })
