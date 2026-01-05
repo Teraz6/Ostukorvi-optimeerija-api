@@ -21,6 +21,10 @@ h1{
   font-weight: bold;
 }
 
+body {
+  display: block;
+  padding-top: 64px;
+}
 
 @media (hover: hover) {
   a:hover {
