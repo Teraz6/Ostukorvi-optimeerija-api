@@ -39,6 +39,9 @@
                     <RouterLink :to="'/products'" class="view-btn">
                         Back to products
                     </RouterLink>
+                    <RouterLink :to="`/products/${thisProduct.ProductID}/update`" class="view-btn">
+                        Edit
+                    </RouterLink>
                 </td>
             </tr>   
         </thead>
