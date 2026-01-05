@@ -1,5 +1,4 @@
 <script>
-    // import ProductDetailsTable from '../components/ProductDetailsTable.vue'
     export default {
     name: "SingleProductView",
     props: {
@@ -28,8 +27,8 @@
     } catch (error) {
         console.error("Error fetching product details:", error);
     }
-}
     }
+}
 </script>
 <template>
     
@@ -39,6 +38,9 @@
                 <td colspan="2" class="text-center">
                     <RouterLink :to="'/products'" class="view-btn">
                         Back to products
+                    </RouterLink>
+                    <RouterLink :to="`/products/${thisProduct.ProductID}/update`" class="view-btn">
+                        Edit
                     </RouterLink>
                 </td>
             </tr>   

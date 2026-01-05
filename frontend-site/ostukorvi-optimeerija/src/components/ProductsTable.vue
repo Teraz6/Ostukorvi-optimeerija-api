@@ -35,20 +35,26 @@
         <table class="custom-table">
             <thead>
                 <tr>
-                    <th>Product ID</th>
-                    <th>Product Name</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
                     <th class="text-right">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in items" :key="item.ProductID">
-                    <td class="id-column">{{ item.ProductID }}</td>
-                    <td class="name-column">{{ item.Name }}</td>
+                    <td class="id-column">{{ item.Name }}</td>
+                    <td class="name-column">{{ item.Category }}</td>
+                    <td class="name-column">{{ item.Price }}</td>
                     <td class="text-right">
                         <RouterLink 
                             :to="'/product/' + item.ProductID" 
                             class="view-btn">
                             View Details
+                        </RouterLink>
+                        <RouterLink :to="'/products/' + item.ProductID + '/update'"
+                            class="view-btn">
+                            Edit
                         </RouterLink>
                         <button @click="deleteProduct(item.ProductID)" class="delete-btn">
                             Delete
