@@ -5,6 +5,24 @@
             items: Array,
             default: () => []
         },
+        methods: {
+            async deleteBasket(BasketID) {
+                if (!confirm("Are you sure you want to delete this product?")) return;
+                try {
+                    const response = await fetch(`http://localhost:8080/baskets/${BasketID}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        this.$emit('basket-deleted', BasketID);
+                    } else {
+                        alert("Server error: Could not delete basket.");
+                    }
+                } catch (error) {
+                    console.error("Delete request failed:", error);
+                }
+            }
+        }
     }
 </script>
 
@@ -12,7 +30,7 @@
     <RouterLink to="/add-basket" class="view-btn">
         Add Basket
     </RouterLink>
-    
+
     <div class="table-container">
         <table class="custom-table">
             <thead>
@@ -24,7 +42,11 @@
             <tbody>
                 <tr v-for="item in items" :key="item.BasketID">
                     <td class="name-column">{{ item.Name }}</td>
-                    <td></td>
+                    <td>
+                        <button @click="deleteBasket(item.BasketID)" class="delete-btn">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
