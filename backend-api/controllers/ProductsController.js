@@ -7,7 +7,7 @@ async (req, res) => {
     const products = await db.Products.findAll();
     //console.log("getAll: " + products)
     res.status(200)
-    .send(products.map(({ProductID,Name}) => {return{ProductID,Name}}))
+    .send(products.map(({ProductID,Name,Price,Category,Description}) => {return{ProductID,Name,Price,Category,Description}}))
 }
 
 exports.getByID = 

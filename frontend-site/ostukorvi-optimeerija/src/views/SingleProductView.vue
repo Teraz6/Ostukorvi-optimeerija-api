@@ -1,5 +1,4 @@
 <script>
-    // import ProductDetailsTable from '../components/ProductDetailsTable.vue'
     export default {
     name: "SingleProductView",
     props: {
@@ -28,8 +27,8 @@
     } catch (error) {
         console.error("Error fetching product details:", error);
     }
-}
     }
+}
 </script>
 <template>
     

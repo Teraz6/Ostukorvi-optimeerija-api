@@ -1,42 +1,59 @@
 <script>
-  export default {
-  data() {
-    return {
-      product: {
-        Name: '',
-        Price: 0,
-        Category: '',
-        Description: 'Standard product' // Default value
-      }
-    }
-  },
-  methods: {
-    async saveProduct() {
-      try {
-        const response = await fetch('http://localhost:8080/products', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(this.product)
-        });
-
-        if (response.ok) {
-          alert("Product added successfully!");
-          this.$router.push('/products'); // Redirect back to list
-        } else {
-          alert("Error adding product");
+export default {
+    name: "UpdateProductView",
+    props: {
+        //in router props must be set to 'true'
+        seekID: {
+        type: String,
+        required: true
         }
-      } catch (error) {
-        console.error("Connection error:", error);
-      }
-    }
-  }
+    },
+    data() {
+        return {
+        product: {
+            Name: '',
+            Price: 0,
+            Category: '',
+            Description: 'Standard product' // Default value
+        }
+        }
+    },
+    async created() {
+        try {
+            const response = await fetch(`http://localhost:8080/products/${this.seekID}`);
+            this.product = await response.json();
+        } 
+        catch (error) {
+            console.error("Error fetching product details:", error);
+        }
+    },
+    methods: {
+        async updateProduct() {
+            try {
+                const response = await fetch(`http://localhost:8080/products/${this.seekID}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.product)
+                });
+
+                if (response.ok) {
+                alert("Product updated successfully!");
+                this.$router.push('/products'); // Redirect back to list
+                } else {
+                alert("Error updating product");
+                }
+            } catch (error) {
+                console.error("Connection error:", error);
+            }
+        }
+    },
 }
 </script>
 
 <template>
     <div class="form-container">
         <h1>Add New Product</h1>
-        <form @submit.prevent="saveProduct">
+        <form @submit.prevent="updateProduct">
             <div class="form-group">
                 <label>Product Name</label>
                 <input v-model="product.Name" type="text" required>
@@ -58,7 +75,7 @@
             </div>
 
             <div class="button-group">
-                <button type="submit" class="save-btn">Save Product</button>
+                <button type="submit" class="save-btn">Update Product</button>
                 <button type="button" class="cancel-btn" @click="$router.push('/products')">Cancel</button>
             </div>
         </form>

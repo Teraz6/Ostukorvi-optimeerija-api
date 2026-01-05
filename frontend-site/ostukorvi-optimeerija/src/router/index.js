@@ -4,6 +4,7 @@ import AboutView from '../views/AboutView.vue'
 import ProductsView from '../views/ProductsView.vue'
 import SingleProductView from '../views/SingleProductView.vue'
 import AddProductView from '../views/AddProductView.vue'
+import UpdateProductView from '../views/UpdateProductView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,12 @@ const router = createRouter({
       path: '/add-product',
       name: 'add-product',
       component: AddProductView,
+    },
+    {
+      path: '/products/:seekID/update',
+      name: 'update-product',
+      component: UpdateProductView,
+      props: true
     }
   ],
 })
