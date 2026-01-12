@@ -412,6 +412,64 @@ paths:
                 name: ProfileID
                 in: path
                 required: true
+    '/baskets/{BasketID}/products':
+        get:
+            tags:
+                - Basket/Products
+            parameters:
+                -
+                    name: BasketID
+                    description: ID of the basket
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns list of products inside of the basket.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            - Piim
+                            - Leib
+                            - Sai
+                            - Komm
+                '404':
+                    description: Return error when basket isn't found.
+                    schema:
+                        $ref: '#/definitions/error'
+            summary: Get all products in basket
+            description: Will return every product in the basket
+        post:
+            tags:
+                - Basket/Products
+            parameters:
+                -
+                    name: BasketID
+                    description: ID of the basket
+                    in: path
+                    required: true
+                    type: string
+                -
+                    name: body
+                    description: Product that is to be added to the basket.
+                    schema:
+                        $ref: '#/definitions/new-BasketItem'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Product(basketItem) has been added to the basket
+                    schema:
+                        $ref: '#/definitions/new-BasketItem'
+                '404':
+                    description: Return when product isn't found
+                    schema:
+                        $ref: '#/definitions/error'
+            summary: Add product into the basket
+            description: Will add a product into a basket
 definitions:
     error:
         title: Root Type for error
@@ -516,3 +574,12 @@ definitions:
                 type: string
         example:
             ProfileID: 6b52cae6-cec3-11f0-b43f-901b0eec5991
+    new-BasketItem:
+        description: ''
+        required:
+            - ProductID
+        type: object
+        properties:
+            ProductID:
+                description: ''
+                type: string
