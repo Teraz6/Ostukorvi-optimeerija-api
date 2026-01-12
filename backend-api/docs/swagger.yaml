@@ -470,6 +470,40 @@ paths:
                         $ref: '#/definitions/error'
             summary: Add product into the basket
             description: Will add a product into a basket
+        parameters:
+            -
+                name: BasketID
+                description: ID of the basket
+                in: path
+                required: true
+                type: string
+    '/baskets/{BasketID}/products/{ProductID}':
+        delete:
+            tags:
+                - Basket/Products
+            responses:
+                '204':
+                    description: Returns when removing a product from the basket is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                '404':
+                    description: Returns when product isn't found in basket.
+                    schema:
+                        $ref: '#/definitions/error'
+            summary: Delete selected product from the basket
+        parameters:
+            -
+                name: BasketID
+                description: ID of the basket
+                in: path
+                required: true
+                type: string
+            -
+                name: ProductID
+                description: ID of the product
+                in: path
+                required: true
+                type: string
 definitions:
     error:
         title: Root Type for error

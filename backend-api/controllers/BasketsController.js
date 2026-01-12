@@ -123,5 +123,27 @@ async (req,res) => {
         console.error("FULL ERROR:", error.parent || error); 
         res.status(500).send(error.parent || error);
     }
-    
+}
+
+//Delete product from basket
+exports.deleteItemFromBasket = 
+async (req,res) => {
+    try {
+        const basket  = await db.Baskets.findByPk(req.params.BasketID, {include:[db.Products]})
+        if(!basket)
+        {
+            return res.status(404).send({error: "Basket not found"})
+        }
+
+        const itemToBeDeleted = await basket.removeProduct(req.params.ProductID)
+        if(!itemToBeDeleted)
+        {
+            return res.status(404).send({error: "Product not found in this basket"})
+        }
+        return res.status(204).send()
+    }
+    catch (error) {
+        console.error(error.parent || error);
+        res.status(500).send(error.parent || error);
+    }
 }
