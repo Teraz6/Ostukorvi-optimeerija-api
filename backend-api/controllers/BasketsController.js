@@ -89,15 +89,24 @@ exports.addItemToBasket =
 async (req,res) => {
     try {
         const basket = await getBasket(req, res);
-        const product = await db.Products.findByPk(req.body.ProductID);
         if(!basket)
         {
             return res.status(404).send({error:"Basket not found"})
         }
+        const product = await db.Products.findByPk(req.body.ProductID);
         if(!product)
         {
             return res.status(404).send({error:"Product not found"})
         }
+        const productID = req.body.ProductID;
+        const existingItem = await db.BasketItem.findOne({where: {BasketID: basket.BasketID, ProductID: productID}})
+        if(existingItem)
+        {
+            existingItem.Quantity += 1;
+            await existingItem.save();
+            return res.status(200).send(existingItem)
+        }
+        
         await basket.addProduct(product)
         res.status(201).send({message:"Product added to basket successfully"})
     }
