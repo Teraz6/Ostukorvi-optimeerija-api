@@ -43,6 +43,10 @@
                 <tr v-for="item in items" :key="item.BasketID">
                     <td class="name-column">{{ item.Name }}</td>
                     <td>
+                        <RouterLink :to="'/basket/' + item.BasketID"
+                        class="view-btn">
+                            View Details
+                        </RouterLink>
                         <RouterLink :to="'/baskets/' + item.BasketID + '/update'"
                         class="view-btn">
                             Edit
