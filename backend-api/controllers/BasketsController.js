@@ -63,7 +63,7 @@ async (req,res) => {
         !req.body.Name ||
         !req.body.Description
     ){
-        return res.status(400({error:'Misiing parameter, please review your request data.'}))
+        return res.status(400({error:'Missing parameter, please review your request data.'}))
     }
     basketToBeChanged.Name = req.body.Name;
     basketToBeChanged.Description = req.body.Description;
@@ -82,4 +82,27 @@ async (req,res) => {
     }
     await basketToBeDeleted.destroy();
     res.status(204).send({error:"No Content"})
+}
+
+//For adding items into basket
+exports.addItemToBasket = 
+async (req,res) => {
+    try {
+        const basket = await getBasket(req, res);
+        const product = await db.Products.findByPk(req.body.ProductID);
+        if(!basket)
+        {
+            return res.status(404).send({error:"Basket not found"})
+        }
+        if(!product)
+        {
+            return res.status(404).send({error:"Product not found"})
+        }
+        await basket.addProduct(product)
+        res.status(201).send({message:"Product added to basket successfully"})
+    }
+    catch(error) {
+        console.log(error)
+        res.status(500).send({error:"Server error while adding product"})
+    }
 }
