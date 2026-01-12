@@ -19,6 +19,7 @@ app.use(express.json())
 require("./routes/productRoutes.js")(app)
 require("./routes/profileRoutes.js")(app)
 require("./routes/basketRoutes.js")(app)
+require("./routes/basketItemRoutes.js")(app)
 
 app.listen(port, async () => {
     if (process.env.SYNC === 'true')

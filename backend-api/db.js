@@ -30,11 +30,11 @@ db.BasketItem = require("./models/BasketItem")(sequelize, DataTypes);
 
 db.Products.belongsToMany(db.Baskets, { 
     through: db.BasketItem, 
-    foreignKey: 'ProductID' 
+    foreignKey: 'ProductID'
 });
 db.Baskets.belongsToMany(db.Products, { 
     through: db.BasketItem, 
-    foreignKey: 'BasketID' 
+    foreignKey: 'BasketID'
 });
 
 const sync = (async ()=>{

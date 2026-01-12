@@ -84,7 +84,7 @@ async (req,res) => {
     res.status(204).send({error:"No Content"})
 }
 
-//For adding items into basket
+//Add products to basket
 exports.addItemToBasket = 
 async (req,res) => {
     try {
@@ -105,4 +105,23 @@ async (req,res) => {
         console.log(error)
         res.status(500).send({error:"Server error while adding product"})
     }
+}
+
+//Get all products from basket
+exports.getAllItemsFromBasket = 
+async (req,res) => {
+    try {
+        const basket = await db.Baskets.findByPk(req.params.BasketID, {include: [db.Products]})
+        const products = await basket.getProducts();
+        if(!basket)
+        {
+            return res.status(404).send({error:"Basket not found"})
+        }
+        return res.status(200).send(products)
+    }
+    catch(error) {
+        console.error("FULL ERROR:", error.parent || error); 
+        res.status(500).send(error.parent || error);
+    }
+    
 }
