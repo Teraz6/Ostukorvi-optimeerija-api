@@ -1,25 +1,36 @@
 <script>
     export default {
-        name: "BasketContentTable",
+        name: "AddProductToBasketTable",
         props: {
             items: Array
         },
         methods: {
-            async removeProduct(ProductID) {
-                if(!confirm("Are you sure you want to remove this product?")) return;
+            async addProduct(item) {
                 try {
                     const BasketID = this.$route.params.seekID
-                    const response = await fetch(`http://localhost:8080/baskets/${BasketID}/products/${ProductID}`,
-                        {method: 'DELETE'}
-                    );
+                    const qty = item.selectedQuantity || 1;
 
+                    const response = await fetch(`http://localhost:8080/baskets/${BasketID}/products`,
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify
+                            ({ 
+                                ProductID: item.ProductID, 
+                                Quantity: qty
+                            })
+                        }
+                    );
                     if (response.ok) {
-                        this.$emit('product-removed', ProductID);
+                        alert(`${item.Name} added to basket!`)
+                        this.$emit('product-added', item.ProductID);
                     } else {
-                        alert("Server error: Could not remove product.");
+                        // alert("Server error: Could not add product to the basket.")
+                        const errorDetail = await response.text(); 
+                        alert("Server says: " + errorDetail);
                     }
                 } catch (error) {
-                    console.error("Remove request failed:", error)
+                    console.error("Add request failed:", error)
                 }
             }
         }
@@ -27,31 +38,35 @@
 </script>
 
 <template>
-    <RouterLink :to="'/basket/'+ $route.params.seekID +'/add-products'" class="view-btn">
-        Add Products
+    <RouterLink :to="'/basket/' + $route.params.seekID + '/products'" class="view-btn">
+        Back
     </RouterLink>
     <div class="table-container">
         <table class="custom-table">
             <thead>
                 <tr>
-                    <th class="name-column">Name</th>
-                    <th class="name-column">Category</th>
-                    <th class="name-column">Price</th>
-                    <th class="name-column">Quantity</th>
-                    <th class="name-column">Action</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>  
+                    <th>Quantity</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in items" :key="item.ProductID">
                     <td>{{ item.Name }}</td>
                     <td>{{ item.Category }}</td>
-                    <td>{{ item.Price }} €</td>
+                    <td>{{ item.Price }}</td>
                     <td>
-                        <span>{{ item.BasketItem?.Quantity }} pcs</span>
+                        <input 
+                            type="number"
+                            min="1" 
+                            placeholder="1"
+                            v-model.number="item.selectedQuantity">
                     </td>
                     <td>
-                        <button @click="removeProduct(item.ProductID)" class="delete-btn">
-                            X
+                        <button @click="addProduct(item)">
+                            Add to Basket
                         </button>
                     </td>
                 </tr>
