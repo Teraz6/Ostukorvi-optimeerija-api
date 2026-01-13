@@ -18,6 +18,6 @@
 
 <template>
     <main>
-        <BasketContentTable :items="allProducts" @product-deleted="id => allProducts = allProducts.filter(p => p.ProductID !== id)" />
+        <BasketContentTable :items="allProducts" @product-removed="id => allProducts = allProducts.filter(p => p.ProductID !== id)" />
     </main>
 </template>

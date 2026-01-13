@@ -5,6 +5,23 @@
             items: Array
         },
         methods: {
+            async removeProduct(ProductID) {
+                if(!confirm("Are you sure you want to remove this product?")) return;
+                try {
+                    const BasketID = this.$route.params.seekID
+                    const response = await fetch(`http://localhost:8080/baskets/${BasketID}/products/${ProductID}`,
+                        {method: 'DELETE'}
+                    );
+
+                    if (response.ok) {
+                        this.$emit('product-removed', ProductID);
+                    } else {
+                        alert("Server error: Could not remove product.");
+                    }
+                } catch (error) {
+                    console.error("Remove request failed:", error)
+                }
+            }
         }
     }
 </script>
@@ -21,6 +38,7 @@
                     <th class="name-column">Category</th>
                     <th class="name-column">Price</th>
                     <th class="name-column">Quantity</th>
+                    <th class="name-column">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +48,11 @@
                     <td>{{ item.Price }} €</td>
                     <td>
                         <span>{{ item.BasketItem?.Quantity }} pcs</span>
+                    </td>
+                    <td>
+                        <button @click="removeProduct(item.ProductID)" class="delete-btn">
+                            X
+                        </button>
                     </td>
                 </tr>
             </tbody>
