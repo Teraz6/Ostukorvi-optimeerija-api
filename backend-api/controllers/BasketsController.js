@@ -153,6 +153,42 @@ async (req,res) => {
     }
     catch (error) {
         console.error(error.parent || error);
-        res.status(500).send(error.parent || error);
+        res.status(500).send({error: "Server error"});
+    }
+}
+
+// Update item quantity
+exports.updateItemQuantity = async (req, res) => {
+    try {
+        const { BasketID, ProductID } = req.params;
+        const Quantity = parseInt(req.query.Quantity, 10);
+
+        if (isNaN(Quantity) || Quantity < 1) {
+            return res.status(400).send({ 
+                error: "Quantity must be a number and at least 1",
+                received: req.query.Quantity 
+            });
+        }
+
+        const [updatedRows] = await db.BasketItem.update(
+            { Quantity: Quantity }, 
+            { 
+                where: { 
+                    BasketID: BasketID, 
+                    ProductID: ProductID 
+                } 
+            }
+        );
+        if (updatedRows === 0) {
+            return res.status(404).send({ error: "Product not found in this basket" });
+        }
+        return res.status(200).send({ 
+            message: "Quantity updated successfully",
+            updatedQuantity: Quantity 
+        });
+
+    } catch (error) {
+        console.error("MariaDB Update Error:", error);
+        res.status(500).send({ error: "Internal Server Error" });
     }
 }

@@ -6,4 +6,5 @@ module.exports = (app) => {
     .post(BasketController.addItemToBasket)
     app.route("/baskets/:BasketID/products/:ProductID")
     .delete(BasketController.deleteItemFromBasket)
+    .put(BasketController.updateItemQuantity)
 }
