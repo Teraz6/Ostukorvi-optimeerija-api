@@ -36,12 +36,14 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Total price</th>
                     <th class="text-right">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in items" :key="item.BasketID">
                     <td class="name-column">{{ item.Name }}</td>
+                    <td class="name-column">{{ item.TotalPrice ? item.TotalPrice + ' €' : '0.00 €'}}</td>
                     <td class="text-right">
                         <RouterLink :to="'/basket/' + item.BasketID + '/products'"
                             class="view-btn">

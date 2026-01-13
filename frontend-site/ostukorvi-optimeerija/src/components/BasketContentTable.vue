@@ -1,8 +1,15 @@
 <script>
+import { calculateTotal } from '../utils/BasketTotalPrice';
+
     export default {
         name: "BasketContentTable",
         props: {
             items: Array
+        },
+        computed: {
+            totalBasketPrice() {
+                return calculateTotal(this.items);
+            }
         },
         methods: {
             async removeProduct(ProductID) {
@@ -58,6 +65,9 @@
     <RouterLink :to="'/basket/'+ $route.params.seekID +'/add-products'" class="view-btn">
         Add Products
     </RouterLink>
+    <RouterLink to="/baskets" class="view-btn">
+        Back
+    </RouterLink>
     <div class="table-container">
         <table class="custom-table">
             <thead>
@@ -90,6 +100,13 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" class="total-label">Total Price:</td>
+                    <td></td>
+                    <td colspan="2" class="total-amount">{{ totalBasketPrice }} €</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </template>
@@ -216,5 +233,27 @@ tr:hover {
 .qty-input:focus {
     outline: 2px solid #3b82f6;
     border-color: transparent;
+}
+
+tfoot {
+    background-color: #f8fafc;
+    border-top: 2px solid #edf2f7;
+}
+
+.total-row td {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1e293b;
+}
+
+.total-label {
+    text-align: right;
+    color: #64748b;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.total-amount {
+    color: #2563eb !important; /* Make the price blue */
 }
 </style>

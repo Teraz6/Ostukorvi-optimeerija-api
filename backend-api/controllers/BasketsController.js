@@ -43,7 +43,7 @@ async (req,res) => {
     const baskets = await db.Baskets.findAll();
     console.log("getAll: " + baskets)
     res.status(200)
-    .send(baskets.map(({BasketID, Name}) => {return{BasketID, Name}}))
+    .send(baskets.map(({BasketID, Name, TotalPrice}) => {return{BasketID, Name, TotalPrice}}))
 }
 
 exports.getById = 
@@ -106,12 +106,18 @@ async (req,res) => {
             existingItem.Quantity += quantityToAdd;
             await existingItem.save();
             return res.status(200).send(existingItem)
+        } else {
+            await basket.addProduct(product, { 
+            through: { Quantity: quantityToAdd } 
+            });
         }
         
-        await basket.addProduct(product, { 
-            through: { Quantity: quantityToAdd } 
-        });
-        res.status(201).send({message:"Product added to basket successfully"})
+        const updatedBasket = await updateBasketTotalPrice(basket.BasketID);
+
+        res.status(201).send({
+            message:"Product added to basket successfully",
+            newTotalPrice: updatedBasket.TotalPrice
+        })
     }
     catch(error) {
         console.log(error)
@@ -152,6 +158,9 @@ async (req,res) => {
         {
             return res.status(404).send({error: "Product not found in this basket"})
         }
+
+        await updateBasketTotalPrice(req.params.BasketID);
+
         return res.status(204).send()
     }
     catch (error) {
@@ -172,7 +181,7 @@ exports.updateItemQuantity = async (req, res) => {
                 received: req.query.Quantity 
             });
         }
-
+        
         const [updatedRows] = await db.BasketItem.update(
             { Quantity: Quantity }, 
             { 
@@ -185,13 +194,38 @@ exports.updateItemQuantity = async (req, res) => {
         if (updatedRows === 0) {
             return res.status(404).send({ error: "Product not found in this basket" });
         }
+
+        const updatedPrice = await updateBasketTotalPrice(BasketID)
+
         return res.status(200).send({ 
-            message: "Quantity updated successfully",
-            updatedQuantity: Quantity 
+            message: "Quantity and Total Price updated successfully",
+            updatedQuantity: Quantity,
+            newTotalPrice: updatedPrice.TotalPrice
         });
 
     } catch (error) {
         console.error("MariaDB Update Error:", error);
         res.status(500).send({ error: "Internal Server Error" });
     }
+}
+
+async function updateBasketTotalPrice(BasketID) {
+    const basket = await db.Baskets.findByPk(BasketID, { include: [db.Products] });
+    if(!basket) {
+        return null;
+    }
+
+    console.log(`Recalculating for Basket: ${BasketID}`);
+    console.log(`Found ${basket.Products ? basket.Products.length : 0} products`);
+    let total = 0;
+    if (basket.Products && basket.Products.length > 0) {
+        basket.Products.forEach(p => {
+            total += (parseFloat(p.Price) * p.BasketItem.Quantity);
+        });
+    }
+
+    basket.TotalPrice = total;
+    await basket.save();
+
+    return basket;
 }
