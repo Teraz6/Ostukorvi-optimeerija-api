@@ -59,14 +59,17 @@
                     <td>{{ item.Price }}</td>
                     <td>
                         <input 
+                            class="qty-input"
                             type="number"
                             min="1" 
                             placeholder="1"
                             v-model.number="item.selectedQuantity">
                     </td>
                     <td>
-                        <button @click="addProduct(item)">
-                            Add to Basket
+                        <button 
+                            @click="addProduct(item)"
+                            class="update-btn">
+                            +
                         </button>
                     </td>
                 </tr>
@@ -162,6 +165,27 @@ tr:hover {
     transform: translateY(0);
 }
 
+.update-btn {
+    padding: 8px 16px;
+    background-color: #31a504;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.update-btn:hover {
+    background-color: #31a504;
+    transform: translateY(-1px);
+}
+
+.update-btn:active {
+    transform: translateY(0);
+}
+
 /* New Modern Delete Button Style */
 .delete-btn {
     padding: 8px 16px;
@@ -182,5 +206,20 @@ tr:hover {
 
 .delete-btn:active {
     transform: translateY(0);
+}
+
+.qty-input {
+    width: 60px;
+    padding: 4px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+.qty-input:focus {
+    outline: 2px solid #3b82f6;
+    border-color: transparent;
 }
 </style>

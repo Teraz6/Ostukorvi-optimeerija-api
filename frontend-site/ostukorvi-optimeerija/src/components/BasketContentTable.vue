@@ -21,8 +21,36 @@
                 } catch (error) {
                     console.error("Remove request failed:", error)
                 }
+            },
+            async updateQuantity(item) {
+                const originalQty = item.BasketItem.Quantity;
+
+                try {
+                    const BasketID = this.$route.params.seekID;
+                    const qty = item.BasketItem.Quantity;
+
+                    if (qty < 1) {
+                        item.BasketItem.Quantity = 1;
+                        return;
+                    }
+
+                    const response = await fetch(`http://localhost:8080/baskets/${BasketID}/products/${item.ProductID}?Quantity=${qty}`, 
+                        { method: 'PUT' }
+                    );
+
+                    if (!response.ok) {
+                        alert("Failed to update quantity")
+                        item.BasketItem.Quantity = originalQty;
+                    } else {
+                        console.log(`Updated ${item.Name} to ${qty}`);
+                    }
+                } catch (error) {
+                    alert("Could not update quantity.")
+                    item.BasketItem.Quantity = originalQty;
+                    console.error("Update failed:", error)
+                }
             }
-        }
+        }   
     }
 </script>
 
@@ -47,7 +75,13 @@
                     <td>{{ item.Category }}</td>
                     <td>{{ item.Price }} €</td>
                     <td>
-                        <span>{{ item.BasketItem?.Quantity }} pcs</span>
+                        <input 
+                            type="number" 
+                            min="1" 
+                            v-model.number="item.BasketItem.Quantity" 
+                            @change="updateQuantity(item)"
+                            class="qty-input"/>
+                        <span> pcs</span>
                     </td>
                     <td>
                         <button @click="removeProduct(item.ProductID)" class="delete-btn">
@@ -167,5 +201,20 @@ tr:hover {
 
 .delete-btn:active {
     transform: translateY(0);
+}
+
+.qty-input {
+    width: 60px;
+    padding: 4px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+.qty-input:focus {
+    outline: 2px solid #3b82f6;
+    border-color: transparent;
 }
 </style>
