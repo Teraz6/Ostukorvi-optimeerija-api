@@ -18,7 +18,10 @@
             "Maiustused ja suupisted",
             "Külmutatud tooted",
             "Kodukeemia",
-            "Tervis ja ilu"
+            "Tervis ja ilu",
+            "Kastmed ja õlid",
+            "Valmistoit",
+            "Toidulisandid"
         ].sort(),
     }
   },

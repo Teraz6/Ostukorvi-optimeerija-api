@@ -69,7 +69,7 @@ async (req,res) => {
     basketToBeChanged.Description = req.body.Description;
     await basketToBeChanged.save();
     return res
-    .location(`${Utilities.getBaseURL(req)}/basket/${basketToBeChanged.BasketID}`).sendStatus(201)
+    .location(`${Utilities.getBaseURL(req)}/basket/${basketToBeChanged.BasketID}`).status(201)
     .send(basketToBeChanged)
 }
 
@@ -105,7 +105,10 @@ async (req,res) => {
         {
             existingItem.Quantity += quantityToAdd;
             await existingItem.save();
-            return res.status(200).send(existingItem)
+            return res.status(200).send({
+                message: "Quantity updated",
+                newTotalPrice: updatedBasket.TotalPrice
+            });
         } else {
             await basket.addProduct(product, { 
             through: { Quantity: quantityToAdd } 
