@@ -1,10 +1,14 @@
 <script>
+import { calculateProductTotal
+
+ } from '../utils/productTotalPrice';
     export default {
         name: "AddProductToBasketTable",
         props: {
             items: Array
         },
         methods: {
+            calculateProductTotal,
             async addProduct(item) {
                 try {
                     const BasketID = this.$route.params.seekID
@@ -49,6 +53,7 @@
                     <th>Category</th>
                     <th>Price</th>  
                     <th>Quantity</th>
+                    <th>Total Price</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -56,7 +61,7 @@
                 <tr v-for="item in items" :key="item.ProductID">
                     <td>{{ item.Name }}</td>
                     <td>{{ item.Category }}</td>
-                    <td>{{ item.Price }}</td>
+                    <td>{{ item.Price }}€</td>
                     <td>
                         <input 
                             class="qty-input"
@@ -65,6 +70,7 @@
                             placeholder="1"
                             v-model.number="item.selectedQuantity">
                     </td>
+                    <td>{{ calculateProductTotal(item) }}€</td>
                     <td>
                         <button 
                             @click="addProduct(item)"

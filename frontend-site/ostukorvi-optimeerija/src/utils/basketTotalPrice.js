@@ -1,3 +1,5 @@
+// For calculating entire basket price
+
 export const calculateTotal = (items) => {
     if (!items || !Array.isArray(items)) return "0.00";
     

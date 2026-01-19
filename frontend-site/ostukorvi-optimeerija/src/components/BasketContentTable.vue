@@ -1,5 +1,6 @@
 <script>
-import { calculateTotal } from '../utils/BasketTotalPrice';
+import { calculateTotal } from '../utils/basketTotalPrice';
+import { calculateProductTotal } from '../utils/productTotalPrice';
 
     export default {
         name: "BasketContentTable",
@@ -12,6 +13,7 @@ import { calculateTotal } from '../utils/BasketTotalPrice';
             }
         },
         methods: {
+            calculateProductTotal,
             async removeProduct(ProductID) {
                 if(!confirm("Are you sure you want to remove this product?")) return;
                 try {
@@ -76,6 +78,7 @@ import { calculateTotal } from '../utils/BasketTotalPrice';
                     <th class="name-column">Category</th>
                     <th class="name-column">Price</th>
                     <th class="name-column">Quantity</th>
+                    <th class="name-column">Total</th>
                     <th class="name-column">Action</th>
                 </tr>
             </thead>
@@ -83,7 +86,7 @@ import { calculateTotal } from '../utils/BasketTotalPrice';
                 <tr v-for="item in items" :key="item.ProductID">
                     <td>{{ item.Name }}</td>
                     <td>{{ item.Category }}</td>
-                    <td>{{ item.Price }} €</td>
+                    <td>{{ item.Price }}€</td>
                     <td>
                         <input 
                             type="number" 
@@ -93,6 +96,7 @@ import { calculateTotal } from '../utils/BasketTotalPrice';
                             class="qty-input"/>
                         <span> pcs</span>
                     </td>
+                    <td>{{ calculateProductTotal(item)}}€</td>
                     <td>
                         <button @click="removeProduct(item.ProductID)" class="delete-btn">
                             X
@@ -104,7 +108,7 @@ import { calculateTotal } from '../utils/BasketTotalPrice';
                 <tr class="total-row">
                     <td colspan="2" class="total-label">Total Price:</td>
                     <td></td>
-                    <td colspan="2" class="total-amount">{{ totalBasketPrice }} €</td>
+                    <td colspan="3" class="total-amount">{{ totalBasketPrice }}€</td>
                 </tr>
             </tfoot>
         </table>
