@@ -28,13 +28,53 @@ exports.getAll = async (req, res) => {
 };
 
 // GET BY ID
-exports.getById = async (req, res) => {
+exports.getById = async (req, res, "ID") => {
   const profile = await getProfile(req, res);
   if (profile) {
     const { ProfileID, Name, Email, IsAdmin } = profile;
     return res.status(200).send({ ProfileID, Name, Email, IsAdmin });
   }
 };
+
+//GET BY EMAIL
+exports.getByEmail = async (req,res) => {
+  const profile = await getProfile(req, res, "Email");
+  if(!profile) {return};
+  return res.send(profile)
+}
+
+const getProfile = 
+async (req,res,gtype) => {
+  console.log(req.params)
+  var profile = null;
+  var errorReason = "";
+  var errorData = ""
+  console.log(gtype)
+  if(!req.params.LoginEmail)
+  {
+    res.status(400).send({error:`Missing Login email`})
+    return null;
+  }
+  switch(gtype){
+    case: "ID":
+      const profileID = req.params.ProfileIDM
+      profile = await db.profile.findByPk(profileID);
+      errorReason = "ID";
+      errorData = profileID;
+      return profile;
+    case "Email":
+      const LoginEmail = req.params.LoginEmail;
+      console.log(LoginEmail);
+      profile = await db.profile.findOne({where: {Email: LoginEmail}})
+      errorReason = "Email"
+      errorData = LoginEmail
+      return profile;
+  }
+  if (!profile) {
+    res.status(404).send({error:`profile by this ${errorReason} does not exist${errorData}`})
+    return  null;
+  }
+}
 
 // CREATE
 exports.create = async (req, res) => {

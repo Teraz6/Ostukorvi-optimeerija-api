@@ -9,4 +9,6 @@ module.exports = (app) => {
         .get(ProfileController.getById)
         .put(ProfileController.modifyById)
         .delete(ProfileController.deleteById);
+    app.route("/auth/:LoginEmail")
+        .get(ProfileController.getByEmail)
 };
