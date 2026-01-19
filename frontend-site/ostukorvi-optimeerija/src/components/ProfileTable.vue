@@ -4,6 +4,7 @@
         props: {
             items: Array
         },
+        emits: ["delete"]
     }
 </script>
 
@@ -30,6 +31,13 @@
                             class="view-btn">
                             View Details
                         </RouterLink>
+
+                        <button
+                            class="delete-btn"
+                            @click="$emit('delete', item.ProfileID)"
+                        >
+                            Delete
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -121,6 +129,28 @@ tr:hover {
 }
 
 .view-btn:active {
+    transform: translateY(0);
+}
+.delete-btn {
+    margin-left: 8px;
+    padding: 8px 16px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4);
+}
+
+.delete-btn:active {
     transform: translateY(0);
 }
 
