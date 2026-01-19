@@ -1,0 +1,247 @@
+/* 1. VARIABLES & THEMES */
+:root {
+    /* Color Palette (Modern/Professional) */
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --success: #10b981;
+    --danger: #ef4444;
+    --neutral-50: #f8fafc;
+    --neutral-100: #f1f5f9;
+    --neutral-200: #e2e8f0;
+    --neutral-300: #cbd5e1;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    /* Semantic Mappings (Linking your logic to colors) */
+    --color-background: var(--neutral-50);
+    --color-background-soft: #ffffff;
+    --color-text: var(--text-main);
+    --color-border: var(--neutral-200);
+
+    /* Layout & Effects */
+    --app-max-width: 1000px;
+    --nav-height: 64px;
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --radius-lg: 16px;
+    --radius-md: 8px;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Overrides (Optional - uncomment to use) */
+/* @media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: #0f172a;
+        --color-background-soft: #1e293b;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --color-border: #334155;
+        --neutral-50: #1e293b;
+        --neutral-100: #334155;
+    }
+} */
+
+/* 2. RESET & BASE STYLES */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    padding-top: var(--nav-height); 
+    color: var(--text-main);
+    background: var(--color-background);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#app {
+    width: 100%;
+    max-width: var(--app-max-width);
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+@media (min-width: 1024px) {
+    #app { padding: 2rem; }
+}
+
+/* 3. TYPOGRAPHY & LINKS */
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition);
+    padding: 4px 8px;
+    border-radius: var(--radius-md);
+}
+
+a:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--primary-hover);
+}
+
+.bold { font-weight: 700; }
+
+/* 4. FORM STYLES */
+.form-container { 
+    max-width: 500px;
+    margin: 3rem auto; 
+    padding: 32px; 
+    background: var(--color-background-soft);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+}
+
+.form-group { 
+    margin-bottom: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+}
+
+input, select { 
+    padding: 12px 16px; 
+    border-radius: var(--radius-md); 
+    border: 1.5px solid var(--color-border);
+    background: var(--color-background-soft);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* 5. TABLE STYLES */
+.table-container {
+    background: var(--color-background-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden; 
+    margin: 2rem 0;
+    border: 1px solid var(--color-border);
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 20px 24px;
+    background: var(--neutral-50);
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
+}
+
+td {
+    padding: 18px 24px;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--color-border);
+}
+
+tr:hover td {
+    background-color: var(--neutral-50);
+}
+
+/* BUTTON GROUP */
+.btn-group {
+    display: flex;
+    vertical-align: middle;
+    gap: 8px; 
+    overflow: visible; 
+    box-shadow: none; 
+}
+
+.btn-right {
+    justify-content: flex-end;
+}
+
+/* 6. BUTTON STYLES */
+.view-btn, .save-btn, .update-btn, .delete-btn, .cancel-btn, .back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.view-btn, .save-btn { 
+    background: var(--primary); 
+    color: white; 
+}
+.view-btn:hover, .save-btn:hover { 
+    background: var(--primary-hover); 
+    transform: translateY(-1px); 
+    color: white;
+}
+
+.update-btn { 
+    background: var(--success); 
+    color: white; 
+}
+.update-btn:hover { 
+    filter: brightness(1.1); 
+    transform: translateY(-1px); 
+}
+
+.delete-btn { 
+    background: #fee2e2; 
+    color: var(--danger); 
+}
+
+.delete-btn:hover { 
+    background: var(--danger); 
+    color: white; 
+}
+
+.cancel-btn, .back-btn { 
+    background: var(--neutral-100); 
+    color: var(--text-muted); 
+}
+
+.cancel-btn:hover, .back-btn:hover { 
+    background: var(--neutral-200); 
+    color: var(--text-main); 
+}
+
+/* 7. UTILITIES */
+.qty-input {
+    width: 75px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.total-amount {
+    color: var(--primary) !important;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
