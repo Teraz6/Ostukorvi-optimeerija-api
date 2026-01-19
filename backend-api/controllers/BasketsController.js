@@ -43,7 +43,7 @@ async (req,res) => {
     const baskets = await db.Baskets.findAll();
     console.log("getAll: " + baskets)
     res.status(200)
-    .send(baskets.map(({BasketID, Name}) => {return{BasketID, Name}}))
+    .send(baskets.map(({BasketID, Name, TotalPrice}) => {return{BasketID, Name, TotalPrice}}))
 }
 
 exports.getById = 
@@ -69,7 +69,7 @@ async (req,res) => {
     basketToBeChanged.Description = req.body.Description;
     await basketToBeChanged.save();
     return res
-    .location(`${Utilities.getBaseURL(req)}/basket/${basketToBeChanged.BasketID}`).sendStatus(201)
+    .location(`${Utilities.getBaseURL(req)}/basket/${basketToBeChanged.BasketID}`).status(201)
     .send(basketToBeChanged)
 }
 
@@ -99,16 +99,28 @@ async (req,res) => {
             return res.status(404).send({error:"Product not found"})
         }
         const productID = req.body.ProductID;
+        const quantityToAdd = parseInt(req.body.Quantity) || 1;
         const existingItem = await db.BasketItem.findOne({where: {BasketID: basket.BasketID, ProductID: productID}})
         if(existingItem)
         {
-            existingItem.Quantity += 1;
+            existingItem.Quantity += quantityToAdd;
             await existingItem.save();
-            return res.status(200).send(existingItem)
+            return res.status(200).send({
+                message: "Quantity updated",
+                newTotalPrice: updatedBasket.TotalPrice
+            });
+        } else {
+            await basket.addProduct(product, { 
+            through: { Quantity: quantityToAdd } 
+            });
         }
         
-        await basket.addProduct(product)
-        res.status(201).send({message:"Product added to basket successfully"})
+        const updatedBasket = await updateBasketTotalPrice(basket.BasketID);
+
+        res.status(201).send({
+            message:"Product added to basket successfully",
+            newTotalPrice: updatedBasket.TotalPrice
+        })
     }
     catch(error) {
         console.log(error)
@@ -149,10 +161,74 @@ async (req,res) => {
         {
             return res.status(404).send({error: "Product not found in this basket"})
         }
+
+        await updateBasketTotalPrice(req.params.BasketID);
+
         return res.status(204).send()
     }
     catch (error) {
         console.error(error.parent || error);
-        res.status(500).send(error.parent || error);
+        res.status(500).send({error: "Server error"});
     }
+}
+
+// Update item quantity
+exports.updateItemQuantity = async (req, res) => {
+    try {
+        const { BasketID, ProductID } = req.params;
+        const Quantity = parseInt(req.query.Quantity, 10);
+
+        if (isNaN(Quantity) || Quantity < 1) {
+            return res.status(400).send({ 
+                error: "Quantity must be a number and at least 1",
+                received: req.query.Quantity 
+            });
+        }
+        
+        const [updatedRows] = await db.BasketItem.update(
+            { Quantity: Quantity }, 
+            { 
+                where: { 
+                    BasketID: BasketID, 
+                    ProductID: ProductID 
+                } 
+            }
+        );
+        if (updatedRows === 0) {
+            return res.status(404).send({ error: "Product not found in this basket" });
+        }
+
+        const updatedPrice = await updateBasketTotalPrice(BasketID)
+
+        return res.status(200).send({ 
+            message: "Quantity and Total Price updated successfully",
+            updatedQuantity: Quantity,
+            newTotalPrice: updatedPrice.TotalPrice
+        });
+
+    } catch (error) {
+        console.error("MariaDB Update Error:", error);
+        res.status(500).send({ error: "Internal Server Error" });
+    }
+}
+
+async function updateBasketTotalPrice(BasketID) {
+    const basket = await db.Baskets.findByPk(BasketID, { include: [db.Products] });
+    if(!basket) {
+        return null;
+    }
+
+    console.log(`Recalculating for Basket: ${BasketID}`);
+    console.log(`Found ${basket.Products ? basket.Products.length : 0} products`);
+    let total = 0;
+    if (basket.Products && basket.Products.length > 0) {
+        basket.Products.forEach(p => {
+            total += (parseFloat(p.Price) * p.BasketItem.Quantity);
+        });
+    }
+
+    basket.TotalPrice = total;
+    await basket.save();
+
+    return basket;
 }

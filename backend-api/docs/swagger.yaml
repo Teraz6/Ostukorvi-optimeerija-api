@@ -478,6 +478,23 @@ paths:
                 required: true
                 type: string
     '/baskets/{BasketID}/products/{ProductID}':
+        put:
+            tags:
+                - Basket/Products
+            responses:
+                '200':
+                    description: Return when quantity of a product has been successfully updated
+                    schema:
+                        type: string
+                '400':
+                    description: Return when quantity is less than 1 or is undefined
+                    schema:
+                        $ref: '#/definitions/error'
+                '404':
+                    description: Returns when a product isn't found in the basket.
+                    schema:
+                        $ref: '#/definitions/error'
+            summary: Update quantity of the products in the basket
         delete:
             tags:
                 - Basket/Products
@@ -485,7 +502,7 @@ paths:
                 '204':
                     description: Returns when removing a product from the basket is successful.
                     schema:
-                        $ref: '#/definitions/error'
+                        type: string
                 '404':
                     description: Returns when product isn't found in basket.
                     schema:
@@ -504,6 +521,12 @@ paths:
                 in: path
                 required: true
                 type: string
+            -
+                name: Quantity
+                description: ''
+                in: query
+                required: true
+                type: integer
 definitions:
     error:
         title: Root Type for error

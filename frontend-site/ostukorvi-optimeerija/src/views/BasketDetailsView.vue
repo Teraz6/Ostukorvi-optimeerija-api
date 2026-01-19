@@ -12,8 +12,7 @@
                 basket: {
                     BasketID: "",
                     Name: "",
-                    Description: "",
-                    TotalPrice: 0
+                    Description: ""
                 }
             }
         },
@@ -53,10 +52,6 @@
             <tr>
                 <td>Description</td>
                 <td>{{ basket.Description }}</td>
-            </tr>
-            <tr>
-                <td>Total Price</td>
-                <td>{{ basket.TotalPrice }}</td>
             </tr>
         </tbody>
     </table>

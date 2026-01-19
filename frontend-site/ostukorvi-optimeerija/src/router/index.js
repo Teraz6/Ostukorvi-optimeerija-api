@@ -9,6 +9,8 @@ import BasketsView from '../views/BasketsView.vue'
 import AddBasketView from '../views/AddBasketView.vue'
 import UpdateBasketView from '../views/UpdateBasketView.vue'
 import BasketDetailsView from '../views/BasketDetailsView.vue'
+import BasketContentView from '../views/BasketContentView.vue'
+import AddProductToBasket from '../views/AddProductToBasket.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,6 +68,18 @@ const router = createRouter({
       name: 'basket-details',
       component: BasketDetailsView,
       props: true
+    },
+    {
+      path: '/basket/:seekID/products',
+      name: 'products-in-basket',
+      component: BasketContentView,
+      props: true
+    },
+    {
+      path: '/basket/:seekID/add-products',
+      name: 'add-products-to-basket',
+      component: AddProductToBasket,
+      props:true
     }
   ],
 })
