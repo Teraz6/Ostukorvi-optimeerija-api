@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
     const newProfile = {
       Name: req.body.Name,
       Email: req.body.Email,
-      PasswordHASH: await Utilities.gimmePassword(req.body.PasswordHASH),
+      PasswordHASH: (await Utilities.gimmePassword(req.body.PasswordHASH)).toString(),
       IsAdmin: req.body.IsAdmin === true || req.body.IsAdmin === "true"
     };
 
@@ -54,8 +54,9 @@ exports.create = async (req, res) => {
 
     return res.status(201).send(createdProfile);
   } catch (error) {
+    console.error("DEBUG: Create Profile Error ->", error);
     return res.status(500).send({ error: error.message });
-  }
+}
 };
 
 // MODIFY
