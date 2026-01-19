@@ -30,6 +30,11 @@
                             class="view-btn">
                             View Details
                         </RouterLink>
+                        <RouterLink
+                            :to="'/profile/' + item.ProfileID + '/update'"
+                            class="view-btn">
+                            Update
+                        </RouterLink>
                     </td>
                 </tr>
             </tbody>
