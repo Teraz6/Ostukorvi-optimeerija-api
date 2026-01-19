@@ -4,6 +4,10 @@ import AboutView from '../views/AboutView.vue'
 import ProductsView from '../views/ProductsView.vue'
 import SingleProductView from '../views/SingleProductView.vue'
 import AddProductView from '../views/AddProductView.vue'
+import ProfileView from '../views/ProfileView.vue'
+import AddProfileView from '../views/AddProfileView.vue'
+import SingleProfileView from '../views/SingleProfileView.vue'
+import UpdateProfileView from '../views/UpdateProfileView.vue'
 import UpdateProductView from '../views/UpdateProductView.vue'
 import BasketsView from '../views/BasketsView.vue'
 import AddBasketView from '../views/AddBasketView.vue'
@@ -34,52 +38,12 @@ const router = createRouter({
       path: '/product/:seekID',
       name: 'product-details',
       component: SingleProductView,
-      props: true // This allows :seekID to be passed as a prop to the component
+      props: true
     },
     {
       path: '/add-product',
       name: 'add-product',
       component: AddProductView,
-    },
-    {
-      path: '/products/:seekID/update',
-      name: 'update-product',
-      component: UpdateProductView,
-      props: true
-    },
-    {
-      path: '/baskets',
-      name: 'baskets',
-      component: BasketsView,
-    },
-    {
-      path: '/add-basket',
-      name: 'add-basket',
-      component: AddBasketView,
-    },
-    {
-      path: '/baskets/:seekID/update',
-      name: 'update-basket',
-      component: UpdateBasketView,
-      props: true
-    },
-    {
-      path: '/basket/:seekID',
-      name: 'basket-details',
-      component: BasketDetailsView,
-      props: true
-    },
-    {
-      path: '/basket/:seekID/products',
-      name: 'products-in-basket',
-      component: BasketContentView,
-      props: true
-    },
-    {
-      path: '/basket/:seekID/add-products',
-      name: 'add-products-to-basket',
-      component: AddProductToBasket,
-      props:true
     }
   ],
 })
