@@ -21,6 +21,7 @@ import { RouterLink } from 'vue-router'
 
     <nav class="nav-right">
       <RouterLink to="/profiles">Profile</RouterLink>
+      <RouterLink to="/signup">Register</RouterLink>
     </nav>
   </header>
 </template>

@@ -38,7 +38,7 @@ exports.getById = async (req, res) => {
 
 // CREATE
 exports.create = async (req, res) => {
-  if (!req.body.Name || !req.body.Email || !req.body.PasswordHASH) {
+  if (!req.body.Name || !req.body.Email || !req.body.PlainPassword) {
     return res.status(400).send({ error: "Missing parameter(s)." });
   }
 
@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
     const newProfile = {
       Name: req.body.Name,
       Email: req.body.Email,
-      PasswordHASH: (await Utilities.gimmePassword(req.body.PasswordHASH)).toString(),
+      PasswordHASH: (await Utilities.gimmePassword(req.body.PlainPassword)).toString(),
       IsAdmin: req.body.IsAdmin === true || req.body.IsAdmin === "true"
     };
 

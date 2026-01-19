@@ -15,6 +15,7 @@ import ProfileView from '../views/ProfileView.vue'
 import AddProfileView from '../views/AddProfileView.vue'
 import SingleProfileView from '../views/SingleProfileView.vue'
 import UpdateProfileView from '../views/UpdateProfileView.vue'
+import RegisterView from '../views/RegisterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +107,11 @@ const router = createRouter({
       name: 'update-profile',
       component: UpdateProfileView,
       props: true
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: RegisterView
     }
   ],
 })
