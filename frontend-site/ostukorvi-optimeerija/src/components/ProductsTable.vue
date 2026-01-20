@@ -1,8 +1,20 @@
 <script>
+import { useAuth } from '@/utils/useAuth'
+
     export default {
         name: "ProductsTable",
         props: {
             items: Array
+        },
+        setup() {
+        const { profile, isAdmin, checkProfile, logout } = useAuth();
+
+        return { 
+            profile, 
+            isAdmin, 
+            checkProfile, 
+            logout 
+            };
         },
         methods: {
             async deleteProduct(ProductID) {
@@ -28,7 +40,7 @@
 </script>
 
 <template>
-    <RouterLink to="/add-product" class="view-btn">
+    <RouterLink v-if="isAdmin" to="/add-product" class="view-btn">
         Add Product
     </RouterLink>
     <div class="table-container">
@@ -52,11 +64,11 @@
                             class="view-btn">
                             View Details
                         </RouterLink>
-                        <RouterLink :to="'/products/' + item.ProductID + '/update'"
+                        <RouterLink v-if="isAdmin" :to="'/products/' + item.ProductID + '/update'"
                             class="view-btn">
                             Edit
                         </RouterLink>
-                        <button @click="deleteProduct(item.ProductID)" class="delete-btn">
+                        <button v-if="isAdmin" @click="deleteProduct(item.ProductID)" class="delete-btn">
                             Delete
                         </button>
                     </td>

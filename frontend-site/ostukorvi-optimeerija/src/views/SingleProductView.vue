@@ -1,4 +1,5 @@
 <script>
+import { useAuth } from '@/utils/useAuth';
     export default {
     name: "SingleProductView",
     props: {
@@ -6,6 +7,13 @@
         seekID: {
         type: String,
         required: true
+        }
+    },
+    setup() {
+        const { isAdmin } = useAuth();
+
+        return {
+            isAdmin
         }
     },
     data() {
@@ -58,7 +66,7 @@
             <RouterLink :to="'/products'" class="back-btn">
                 Back to products
             </RouterLink>
-            <RouterLink :to="`/products/${thisProduct.ProductID}/update`" class="view-btn">
+            <RouterLink v-if="isAdmin" :to="`/products/${thisProduct.ProductID}/update`" class="view-btn">
                 Edit
             </RouterLink>
         </div>
