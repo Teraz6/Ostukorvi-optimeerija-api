@@ -49,6 +49,7 @@ import { calculateProductTotal
         <table class="custom-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>Category</th>
                     <th>Price</th>  
@@ -59,6 +60,9 @@ import { calculateProductTotal
             </thead>
             <tbody>
                 <tr v-for="item in items" :key="item.ProductID">
+                    <td>
+                        <img v-if="item.ImageUrl" :src="item.ImageUrl" alt="Product image" class="preview-img">
+                    </td>
                     <td>{{ item.Name }}</td>
                     <td>{{ item.Category }}</td>
                     <td>{{ item.Price }}€</td>

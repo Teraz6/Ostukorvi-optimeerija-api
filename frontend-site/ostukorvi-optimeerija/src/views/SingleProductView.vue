@@ -42,6 +42,10 @@ import { useAuth } from '@/utils/useAuth';
     <div class="form-container">
         <h1>{{ thisProduct.Name }}</h1>
 
+        <div v-if="item.ImageUrl" class="form-group">
+            <img :src="thisProduct.ImageUrl" alt="Product image" class="image-preview">
+        </div>
+
         <div class="form-group">
             <h4 class="bold">Product ID:</h4>
             <label>{{ thisProduct.ProductID }}</label>

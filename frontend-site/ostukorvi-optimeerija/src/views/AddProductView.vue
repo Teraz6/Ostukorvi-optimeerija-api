@@ -6,7 +6,8 @@
         Name: '',
         Price: 0,
         Category: '',
-        Description: 'Standard product' // Default value
+        Description: '',
+        ImageUrl: '',
       },
       categories: [
             "Puu- ja köögiviljad",
@@ -75,6 +76,16 @@
             <div class="form-group">
                 <label>Description</label>
                 <input v-model="product.Description" type="text">
+            </div>
+
+            <div class="form-group">
+                <label>Image url</label>
+                <input v-model="product.ImageUrl" type="text">
+            </div>
+
+            <div v-if="product.ImageUrl" class="image-preview">
+              <p>Preview</p>
+              <img :src="product.ImageUrl" alt="Product Preview" class="preview-img">
             </div>
 
             <div class="btn-group">

@@ -47,6 +47,7 @@ import { useAuth } from '@/utils/useAuth'
         <table class="custom-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Name</th>
                     <th>Category</th>
                     <th>Price</th>
@@ -55,6 +56,9 @@ import { useAuth } from '@/utils/useAuth'
             </thead>
             <tbody>
                 <tr v-for="item in items" :key="item.ProductID">
+                    <td>
+                        <img v-if="item.ImageUrl" :src="item.ImageUrl" alt="Product image" class="preview-img">
+                    </td>
                     <td class="name-column">{{ item.Name }}</td>
                     <td class="name-column">{{ item.Category }}</td>
                     <td class="nr-column">{{ item.Price }}€</td>
