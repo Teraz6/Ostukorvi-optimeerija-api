@@ -1,5 +1,31 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { ref, watch, onMounted } from 'vue'
+
+const router = useRouter()
+const user = ref(null)
+
+// Function to check if user is logged in
+const checkUser = () => {
+  const savedUser = localStorage.getItem('user')
+  user.value = savedUser ? JSON.parse(savedUser) : null
+}
+
+// Check when component loads
+onMounted(() => {
+  checkUser()
+})
+
+// Re-check every time we navigate (important for login/logout)
+watch(() => router.currentRoute.value.path, () => {
+  checkUser()
+})
+
+const logout = () => {
+  localStorage.removeItem('user')
+  user.value = null
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -16,12 +42,20 @@ import { RouterLink } from 'vue-router'
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/products">Products</RouterLink>
-      <RouterLink to="/baskets">Baskets</RouterLink>
-    </nav> 
-
-    <nav class="nav-right">
+      <RouterLink v-if="user" to="/baskets">Baskets</RouterLink>
       <RouterLink to="/profiles">Profile</RouterLink>
-      <RouterLink to="/signup">Register</RouterLink>
+    </nav> 
+    
+    <nav class="nav-right">
+      <template v-if="user">
+        <span class="user-name">Hi, {{ user.Name }}</span>
+        <a href="#" @click.prevent="logout">Logout</a>
+      </template>
+
+      <template v-else>
+        <RouterLink to="/signup">Register</RouterLink>
+        <RouterLink to="/login">Login</RouterLink>
+      </template>
     </nav>
   </header>
 </template>
@@ -34,6 +68,12 @@ header {
   background-color: #daf9ff;
   gap: 2rem;
   width: 100%;
+}
+
+.user-name {
+  margin-right: 1.5rem;
+  font-weight: bold;
+  color: #64748b;
 }
 
 .nav-left {
