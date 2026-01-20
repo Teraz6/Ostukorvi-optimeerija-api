@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             Description: {
                 type: DataTypes.STRING,
                 allowNull: false
+            },
+            ImageUrl: {
+                type: DataTypes.STRING,
+                allowNull: true
             }
         }
     )

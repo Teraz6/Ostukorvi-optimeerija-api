@@ -7,7 +7,9 @@ async (req, res) => {
     const products = await db.Products.findAll();
     //console.log("getAll: " + products)
     res.status(200)
-    .send(products.map(({ProductID,Name,Price,Category,Description}) => {return{ProductID,Name,Price,Category,Description}}))
+    .send(products.map(({ProductID,Name,Price,Category,Description, ImageUrl}) => {
+        return{ProductID,Name,Price,Category,Description, ImageUrl}
+    }))
 }
 
 exports.getByID = 
@@ -33,6 +35,7 @@ async (req, res) => {
         Price: req.body.Price,
         Category: req.body.Category,
         Description: req.body.Description,
+        ImageUrl: req.body.ImageUrl,
     }
     
     const createdProduct = await db.Products.create(newProduct)
@@ -69,6 +72,7 @@ async (req, res) => {
     productToBeChanged.Price = req.body.Price;
     productToBeChanged.Category = req.body.Category;
     productToBeChanged.Description = req.body.Description;
+    productToBeChanged.ImageUrl = req.body.ImageUrl;
     await productToBeChanged.save();
     return res
     .location(`${Utilities.getBaseURL(req)}/product/${productToBeChanged.ProductID}`).sendStatus(201)
