@@ -89,7 +89,7 @@ import { calculateProductTotal } from '../utils/productTotalPrice';
             <tbody>
                 <tr v-for="item in items" :key="item.ProductID">
                     <td>
-                        <img v-if="item.ImageUrl" :src="item.ImageUrl" alt="Product image" class="preview-img-s">
+                        <img v-if="item.ImageUrl" :src="item.ImageUrl" alt="Product image" class="preview-img">
                     </td>
                     <td>{{ item.Name }}</td>
                     <td>{{ item.Category }}</td>

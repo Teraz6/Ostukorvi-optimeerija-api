@@ -69,6 +69,7 @@ header {
 .nav-right {
   margin-left: auto;
   display: flex;
+  gap: 1rem;
   align-items: center;
 }
 

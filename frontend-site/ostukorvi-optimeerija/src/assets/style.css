@@ -247,56 +247,126 @@ tr:hover td {
 }
 
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
 }
 
 .login-card {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
 }
 
 .login-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
 .login-btn:hover { background-color: #2563eb; }
 .login-btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
 .error-msg {
-  color: #ef4444;
-  background: #fef2f2;
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  font-size: 0.85rem;
-  text-align: center;
+    color: #ef4444;
+    background: #fef2f2;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    text-align: center;
 }
 
 .preview-img {
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 8px;
-  margin-top: 10px;
-  border: 1px solid #ddd;
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
 }
 .image-preview {
-  margin: 15px 0;
-  text-align: center;
-  max-height: 500px;
-  max-width: 100%;
+    margin: 15px 0;
+    text-align: center;
+    max-height: 500px;
+    max-width: 100%;
+}
+
+/* PRODUCT GRID */
+.product-grid {
+    display: grid;
+    /* This creates as many columns as fit, at least 250px wide each */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;  
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+    .product-card:hover {
+    transform: translateY(-4px);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    background-color: #f9f9f9;
+}
+
+.preview-img-card {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills the area without stretching */
+}
+
+.card-details {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.category-tag {
+    color: #666;
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.price-tag {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.2em;
+}
+
+.card-actions {
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+}
+
+.no-image {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+    color: #999;
 }
