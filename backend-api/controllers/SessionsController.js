@@ -33,7 +33,26 @@ async (req,res) => {
 
     return res.status(200).send({
         ProfileID: profileToProvideSessionFor.ProfileID,
-        Email: LoginEmail,
+        Name: profileToProvideSessionFor.Name,
+        Email: profileToProvideSessionFor.Email,
         IsAdmin: profileToProvideSessionFor.IsAdmin
+    })
+}
+
+exports.reAuthenticate = 
+async (req,res) => {
+    if(!req.session.ProfileID) {
+        return res.status(401).send({error:"Session expired, please log in again."})
+    }
+    var profile = await db.Profiles.findByPk(req.session.profileID)
+    if(!profile)
+    {
+        return res.status(401).send({error: "Logged in profile not found, please log in again"})
+    }
+    return res.status(200).send({
+        ProfileID: profile.ProfileID,
+        Name: profile.Name,
+        Email: profile.Email,
+        IsAdmin: profile.IsAdmin,
     })
 }
