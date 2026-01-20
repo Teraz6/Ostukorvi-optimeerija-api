@@ -68,10 +68,10 @@ export default {
 
         if (response.ok) {
           // Success! result contains ProfileID, Name, etc.
-          console.log("Logged in user:", result);
+          console.log("Logged in profile:", result);
           
           // Save to localStorage so other parts of the app know who is logged in
-          localStorage.setItem("user", JSON.stringify(result));
+          localStorage.setItem("profile", JSON.stringify(result));
           
           // Redirect to a home page
           this.$router.push("/");

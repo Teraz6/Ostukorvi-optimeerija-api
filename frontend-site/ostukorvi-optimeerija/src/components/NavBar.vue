@@ -1,31 +1,15 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router'
-import { ref, watch, onMounted } from 'vue'
+import { useAuth } from '@/utils/useAuth'
+import { watch } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+const { profile, isAdmin, checkProfile, logout} = useAuth()
+const route = useRoute()
 
-const router = useRouter()
-const user = ref(null)
-
-// Function to check if user is logged in
-const checkUser = () => {
-  const savedUser = localStorage.getItem('user')
-  user.value = savedUser ? JSON.parse(savedUser) : null
-}
-
-// Check when component loads
-onMounted(() => {
-  checkUser()
+// Still watch the route to update the navbar if the user logs in/out
+watch(() => route.path, () => {
+  checkProfile()
 })
 
-// Re-check every time we navigate (important for login/logout)
-watch(() => router.currentRoute.value.path, () => {
-  checkUser()
-})
-
-const logout = () => {
-  localStorage.removeItem('user')
-  user.value = null
-  router.push('/login')
-}
 </script>
 
 <template>
@@ -42,14 +26,14 @@ const logout = () => {
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/products">Products</RouterLink>
-      <RouterLink v-if="user" to="/baskets">Baskets</RouterLink>
-      <RouterLink to="/profiles">Profile</RouterLink>
+      <RouterLink v-if="profile" to="/baskets">Baskets</RouterLink>
+      <RouterLink v-if="isAdmin" to="/profiles">Profiles</RouterLink>
     </nav> 
-    
+
     <nav class="nav-right">
-      <template v-if="user">
-        <span class="user-name">Hi, {{ user.Name }}</span>
-        <a href="#" @click.prevent="logout">Logout</a>
+      <template v-if="profile">
+        <span class="user-name">Hi, {{ profile.Name }}</span>
+        <a href="#" @click.prevent="logout(); $router.push('/')">Logout</a>
       </template>
 
       <template v-else>
