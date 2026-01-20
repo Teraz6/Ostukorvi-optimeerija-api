@@ -10,13 +10,14 @@
                 if (!confirm("Are you sure you want to delete this product?")) return;
                 try {
                     const response = await fetch(`http://localhost:8080/baskets/${BasketID}`, {
-                        method: 'DELETE'
+                        method: 'DELETE',
+                        credentials: 'include'
                     });
 
                     if (response.ok) {
                         this.$emit('basket-deleted', BasketID);
                     } else {
-                        alert("Server error: Could not delete basket.");
+                        alert("Error: You don't have a permission");
                     }
                 } catch (error) {
                     console.error("Delete request failed:", error);

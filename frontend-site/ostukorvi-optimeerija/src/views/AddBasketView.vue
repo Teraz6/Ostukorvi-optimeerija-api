@@ -14,11 +14,15 @@
                     const response = await fetch('http://localhost:8080/baskets', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
                         body: JSON.stringify(this.basket)
                     });
                     if (response.ok) {
                         alert("Basket created!");
                         this.$router.push('/baskets');
+                    } else if (response.status === 401) {
+                        alert("Session expired. Please log in again.")
+                        this.$router.push('/login')
                     } else {
                         alert("Error adding basket!");
                     }
