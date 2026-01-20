@@ -1,4 +1,5 @@
 const ProfileController = require("../controllers/ProfilesController");
+const SessionsController = require("../controllers/SessionsController");
 
 module.exports = (app) => {
     app.route("/profiles")
@@ -11,4 +12,6 @@ module.exports = (app) => {
         .delete(ProfileController.deleteById);
     app.route("/auth/:LoginEmail")
         .get(ProfileController.getByEmail)
+    app.route("/sessions")
+        .post(SessionsController.newSession)
 };
