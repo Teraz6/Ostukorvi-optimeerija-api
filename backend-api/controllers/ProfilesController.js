@@ -15,6 +15,40 @@ const getProfile = async (req, res) => {
   return profile;
 };
 
+
+// const getProfile = 
+// async (req,res,gtype) => {
+//   console.log(req.params)
+//   var profile = null;
+//   var errorReason = "";
+//   var errorData = ""
+//   console.log(gtype)
+//   if(!req.params.LoginEmail)
+//   {
+//     res.status(400).send({error:`Missing Login email`})
+//     return null;
+//   }
+//   switch(gtype){
+//     case "ID":
+//       const profileID = req.params.ProfileIDM
+//       profile = await db.profile.findByPk(profileID);
+//       errorReason = "ID";
+//       errorData = profileID;
+//       return profile;
+//     case "Email":
+//       const LoginEmail = req.params.LoginEmail;
+//       console.log(LoginEmail);
+//       profile = await db.profile.findOne({where: {Email: LoginEmail}})
+//       errorReason = "Email"
+//       errorData = LoginEmail
+//       return profile;
+//   }
+//   if (!profile) {
+//     res.status(404).send({error:`profile by this ${errorReason} does not exist${errorData}`})
+//     return  null;
+//   }
+// }
+
 // GET ALL
 exports.getAll = async (req, res) => {
   try {
@@ -28,11 +62,18 @@ exports.getAll = async (req, res) => {
 };
 
 // GET BY ID
-exports.getById = async (req, res, "ID") => {
-  const profile = await getProfile(req, res);
-  if (profile) {
-    const { ProfileID, Name, Email, IsAdmin } = profile;
-    return res.status(200).send({ ProfileID, Name, Email, IsAdmin });
+exports.getById = async (req, res) => {
+  try {
+    const profile = await db.Profiles.findByPk(req.params.id); 
+
+    if (profile) {
+      const { ProfileID, Name, Email, IsAdmin } = profile;
+      return res.status(200).send({ ProfileID, Name, Email, IsAdmin });
+    } else {
+      return res.status(404).send({ error: "Profile not found" });
+    }
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
   }
 };
 
@@ -42,40 +83,6 @@ exports.getByEmail = async (req,res) => {
   if(!profile) {return};
   return res.send(profile)
 }
-
-const getProfile = 
-async (req,res,gtype) => {
-  console.log(req.params)
-  var profile = null;
-  var errorReason = "";
-  var errorData = ""
-  console.log(gtype)
-  if(!req.params.LoginEmail)
-  {
-    res.status(400).send({error:`Missing Login email`})
-    return null;
-  }
-  switch(gtype){
-    case: "ID":
-      const profileID = req.params.ProfileIDM
-      profile = await db.profile.findByPk(profileID);
-      errorReason = "ID";
-      errorData = profileID;
-      return profile;
-    case "Email":
-      const LoginEmail = req.params.LoginEmail;
-      console.log(LoginEmail);
-      profile = await db.profile.findOne({where: {Email: LoginEmail}})
-      errorReason = "Email"
-      errorData = LoginEmail
-      return profile;
-  }
-  if (!profile) {
-    res.status(404).send({error:`profile by this ${errorReason} does not exist${errorData}`})
-    return  null;
-  }
-}
-
 // CREATE
 exports.create = async (req, res) => {
   if (!req.body.Name || !req.body.Email || !req.body.PlainPassword) {
