@@ -24,7 +24,6 @@ watch(() => route.path, () => {
 
     <nav class="nav-left">
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/products">Products</RouterLink>
       <RouterLink v-if="profile" to="/baskets">Baskets</RouterLink>
       <RouterLink v-if="isAdmin" to="/profiles">Profiles</RouterLink>
