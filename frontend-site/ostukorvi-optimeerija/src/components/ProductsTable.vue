@@ -40,44 +40,44 @@ import { useAuth } from '@/utils/useAuth'
 </script>
 
 <template>
+  <div class="actions-bar">
     <RouterLink v-if="isAdmin" to="/add-product" class="view-btn">
         Add Product
     </RouterLink>
-    <div class="table-container">
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items" :key="item.ProductID">
-                    <td>
-                        <img v-if="item.ImageUrl" :src="item.ImageUrl" alt="Product image" class="preview-img">
-                    </td>
-                    <td class="name-column">{{ item.Name }}</td>
-                    <td class="name-column">{{ item.Category }}</td>
-                    <td class="nr-column">{{ item.Price }}€</td>
-                    <td class="btn-group">
-                        <RouterLink 
-                            :to="'/product/' + item.ProductID" 
-                            class="view-btn">
-                            View Details
-                        </RouterLink>
-                        <RouterLink v-if="isAdmin" :to="'/products/' + item.ProductID + '/update'"
-                            class="view-btn">
-                            Edit
-                        </RouterLink>
-                        <button v-if="isAdmin" @click="deleteProduct(item.ProductID)" class="delete-btn">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+  </div>
+
+  <div class="product-grid">
+    <div v-for="item in items" :key="item.ProductID" class="product-card">
+      <div class="card-image">
+        <img 
+          v-if="item.ImageUrl" 
+          :src="item.ImageUrl" 
+          alt="Product image" 
+          class="preview-img-card"
+        >
+        <div v-else class="no-image">No Image</div>
+      </div>
+
+      <div class="card-details">
+        <h3 class="name-column">{{ item.Name }}</h3>
+        <p class="category-tag">{{ item.Category }}</p>
+        <p class="price-tag">{{ item.Price }}€</p>
+      </div>
+
+      <div class="card-actions">
+        <RouterLink :to="'/product/' + item.ProductID" class="view-btn">
+          Details
+        </RouterLink>
+        
+        <template v-if="isAdmin">
+          <RouterLink :to="'/products/' + item.ProductID + '/update'" class="edit-btn">
+            Edit
+          </RouterLink>
+          <button @click="deleteProduct(item.ProductID)" class="delete-btn">
+            Delete
+          </button>
+        </template>
+      </div>
     </div>
+  </div>
 </template>
