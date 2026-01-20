@@ -47,6 +47,15 @@ db.Baskets.belongsToMany(db.Products, {
     otherKey: "ProductID"
 });
 
+db.Baskets.belongsTo(db.Profiles, {
+    foreignKey: "ProfileID",
+    onDelete: "CASCADE"
+});
+
+db.Profiles.hasMany(db.Baskets, {
+    foreignKey: "ProfileID"
+});
+
 const sync = (async ()=>{
     await sessionStore.sync()
     await sequelize.sync();

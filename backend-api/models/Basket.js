@@ -20,6 +20,11 @@ module.exports = (sequelize,DataTypes) => {
                 type: DataTypes.DECIMAL(10,2),
                 defaultValue: 0.00,
                 allowNull: true
+            },
+            ProfileID: {
+                type: DataTypes.UUID,
+                allowNull: false,
+                defaultValue: DataTypes.UUID
             }
         }
     )

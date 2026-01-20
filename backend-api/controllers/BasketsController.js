@@ -18,6 +18,10 @@ async (req, res) => {
 
 exports.create = 
 async (req, res) => {
+    if (!req.session.ProfileID) {
+        return res.status(401).send({ error: "You must be logged in."})
+    }
+
     if (
         !req.body.Name ||
         !req.body.Description
@@ -29,21 +33,28 @@ async (req, res) => {
         Name: req.body.Name,
         Description: req.body.Description,
         TotalPrice: req.body.TotalPrice,
-        ProfileID: req.body.ProfileID, // check if it is correct
-        ProductID: req.body.ProductID, //check if this is correct
+        ProfileID: req.session.ProfileID,
+        ProductID: req.body.ProductID,
     }
 
     const createdBasket = await db.Baskets.create(newBasket)
-    return res.location(`${Utilities.getBaseURL(req)}/basket/${createdBasket.BasketID}`)
-    .sendStatus(201);
+    return res.status(201).send(createdBasket);
 }
 
 exports.getAll = 
 async (req,res) => {
-    const baskets = await db.Baskets.findAll();
-    console.log("getAll: " + baskets)
-    res.status(200)
-    .send(baskets.map(({BasketID, Name, TotalPrice}) => {return{BasketID, Name, TotalPrice}}))
+    if (!req.session.ProfileID) {
+        return res.status(401).send({ error: "Unauthorized"})
+    }
+    const baskets = await db.Baskets.findAll({
+        where: { ProfileID: req.session.ProfileID}
+    });
+
+    const result = baskets.map(({ BasketID, Name, TotalPrice }) => ({
+            BasketID, Name, TotalPrice
+    }));
+        
+    return res.status(200).send(result);
 }
 
 exports.getById = 
@@ -76,9 +87,9 @@ async (req,res) => {
 exports.deleteById =
 async (req,res) => {
     const basketToBeDeleted = await getBasket(req,res);
-    if(!basketToBeDeleted)
+    if(!basketToBeDeleted || basketToBeDeleted.ProfileID !== req.session.ProfileID)
     {
-        return;
+        return res.status(403).send({ error: "Access denied"})
     }
     await basketToBeDeleted.destroy();
     res.status(204).send({error:"No Content"})
