@@ -3,8 +3,16 @@ const Utilities = require("./Utilities.js")
 
 exports.newSession = 
 async (req,res) => {
-    if(!req.body.LoginEmail || !req.body.LoginPassword)
-    {
+    const { LoginEmail, LoginPassword } = req.body;
+
+    if (!LoginEmail || !LoginPassword) {
+        let missing = !LoginEmail ? " No email." : "";
+        missing += !LoginPassword ? " No password." : "";
+        return res.status(400).send({ error: "Missing parameters:" + missing });
+    }
+    try {
+        if(!req.body.LoginEmail || !req.body.LoginPassword)
+        {
         const missingparams = "";
         if(!req.body.LoginEmail)
         {
@@ -15,28 +23,32 @@ async (req,res) => {
             missingparams += "No password provided."
         }
         return res.status(400).send({error: "Missing parameter for loggin" + missingparams})
-    }
+        }
 
-    LoginEmail = req.body.LoginEmail
-    console.log(LoginEmail)
-    var profileToProvideSessionFor = await db.Profiles.findOne({where: {EmailAddress: LoginEmail}})
-    if(!profileToProvideSessionFor) {
-        return res.status(404).send({error:"Profile not found"})
-    }
-    //const newLoginHASH = (await Utilities.gimmePassword(LoginPassword)).toString()
-    var isCorrect = (await Utilities.letMeIn(req.body.LoginPassword,profileToProvideSessionFor.PasswordHASH))
-    if (!isCorrect)
-    {
-        return res.status(401).send({error:"Password mismatch"})
-    }
-    req.session.ProfileID = profileToProvideSessionFor.ProfileID
+        console.log(LoginEmail)
+        var profile = await db.Profiles.findOne({where: {Email: LoginEmail}})
+        if(!profile) {
+            return res.status(404).send({error:"Profile not found"})
+        }
+        //const newLoginHASH = (await Utilities.gimmePassword(LoginPassword)).toString()
+        var isCorrect = (await Utilities.letMeIn(req.body.LoginPassword,profile.PasswordHASH))
+        if (!isCorrect)
+        {
+            return res.status(401).send({error:"Password mismatch"})
+        }
+        req.session.ProfileID = profile.ProfileID
 
-    return res.status(200).send({
-        ProfileID: profileToProvideSessionFor.ProfileID,
-        Name: profileToProvideSessionFor.Name,
-        Email: profileToProvideSessionFor.Email,
-        IsAdmin: profileToProvideSessionFor.IsAdmin
-    })
+        return res.status(200).send({
+            ProfileID: profile.ProfileID,
+            Name: profile.Name,
+            Email: profile.Email,
+            IsAdmin: profile.IsAdmin
+        })
+    } catch (error) {
+        console.error("Database or Auth Error:", error);
+        return res.status(500).send({ error: error.message });
+    }
+    
 }
 
 exports.reAuthenticate = 
@@ -44,7 +56,7 @@ async (req,res) => {
     if(!req.session.ProfileID) {
         return res.status(401).send({error:"Session expired, please log in again."})
     }
-    var profile = await db.Profiles.findByPk(req.session.profileID)
+    var profile = await db.Profiles.findByPk(req.session.ProfileID)
     if(!profile)
     {
         return res.status(401).send({error: "Logged in profile not found, please log in again"})

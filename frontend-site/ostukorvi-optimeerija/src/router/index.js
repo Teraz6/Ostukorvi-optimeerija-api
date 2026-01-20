@@ -16,6 +16,7 @@ import AddProfileView from '../views/AddProfileView.vue'
 import SingleProfileView from '../views/SingleProfileView.vue'
 import UpdateProfileView from '../views/UpdateProfileView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import LoginView from '../views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -112,6 +113,11 @@ const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: RegisterView
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
     }
   ],
 })

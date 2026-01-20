@@ -13,7 +13,12 @@ const swaggerDocument = yamljs.load('./docs/swagger.yaml')
 //const swaggerDocument = require('./docs/swagger.json');
 const { sync, sessionStore } = require("./db")
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  credentials: true, 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(express.json())
 
